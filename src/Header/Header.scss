@@ -1,0 +1,129 @@
+.header {
+  border-bottom: 1px solid var(--separator-color);
+  padding: 8px 10px 8px 16px;
+  height: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  position: fixed;
+  width: 100vw;
+  background: var(--bg);
+  height: 64px;
+  
+  .buttons-container {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 4px 4px 0 0;
+  }
+
+  @media (max-width: 700px) {
+    padding: 8px 10px 8px 10px;
+  }
+}
+
+.logo-container {
+    margin: 3px 0 8px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+
+    .logo {
+        font-family: var(--logo-font);
+        font-size: 32px;
+        color: var(--logo-color);
+        margin: 0px 0px 0 0;
+    }
+
+    .sidebar-button {
+        width: 36px;
+        height: 36px;
+        padding: 4px;
+        margin: 4px 10px 0 0;
+        display: none;
+    }
+
+    @media (max-width: 700px) {
+        .sidebar-button {
+            display: block;
+        }
+    }
+}
+
+.unauthorized-buttons {
+  display: none;
+
+  &.opened {
+    display: block;
+  }
+}
+
+.authorized-buttons {
+  display: none;
+
+  &.opened {
+    display: block;
+  }
+
+  .profile-button {
+    margin: 0 4px 0 0;
+  }
+}
+
+.account-overlay {
+    display: flex;
+    position: fixed;
+    background-color: var(--bg2);
+    padding: 10px;
+    top: 65px;
+    right: 0px;
+    border-radius: 8px;
+    min-width: 200px;
+    flex-direction: column;
+    min-height: 100px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.1s ease;
+    transform: translateY(-4px) scale(0.94);
+
+    &.opened {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px) scale(1);
+    }
+
+    .transparent-button {
+        text-align: start;
+        font-size: 0.96rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 4px 0;
+
+        img {
+            height: 24px;
+            width: 24px;
+        }
+
+        span {
+            padding: 0px 0 0 0;
+        }
+    }
+
+    .separator {
+        width: 100%;
+        border-bottom: 2px solid var(--separator-color);
+        margin: 6px 0 6px 0;
+    }
+
+    @media (max-width: 500px) {
+      min-width: 180px;
+      .transparent-button {
+        font-size: 0.9rem;
+        img {
+            height: 20px;
+            width: 20px;
+        }
+      }
+    }
+}

@@ -1,0 +1,108 @@
+$img-size: 140px;
+$img-size-small: 120px;
+
+.avatar-modal {
+    max-width: 360px;
+    width: 100%;
+    h3 {
+        margin: 8px 0 0 0;
+        color: var(--text-color);
+    }
+
+    p {
+        color: var(--text-color5);
+        margin: 6px 0 12px 0;
+        font-size: 0.9rem;
+    }
+
+    .secondary-input {
+        width: 100%;
+    }
+
+    .buttons {
+        margin: 30px 0 0 0;
+        display: flex;
+        gap: 6px;
+        justify-content: end;
+    }
+
+    p.error {
+      color: var(--error-color);
+      padding: 0;
+      margin: 10px 0 0 0;
+    }
+
+    input {
+        display: none;
+    }
+
+    .avatar-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 30px 0 30px 0;
+
+        img {
+            border-radius: 50%;
+            width: $img-size;
+            height: $img-size;
+        }
+
+        .image-group {
+            width: $img-size;
+            height: $img-size;
+            position: relative;
+        }
+
+        .hover-overlay {
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            width: $img-size;
+            height: $img-size;
+            transition: 0.2s ease;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 56px;
+            opacity: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 500px) {
+            img {
+                width: $img-size-small;
+                height: $img-size-small;
+            }
+
+            .image-group {
+                width: $img-size-small;
+                height: $img-size-small;
+            }
+
+            .hover-overlay {
+                width: $img-size-small;
+                height: $img-size-small;
+            }
+        }
+    }
+
+    .cropper-container {
+        position: relative;
+        margin: 20px 0 20px 0;
+        height: 200px;
+    }
+
+    @media (max-width: 500px) {
+        max-width: 300px;
+    }
+}

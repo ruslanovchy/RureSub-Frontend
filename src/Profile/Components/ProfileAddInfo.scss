@@ -1,0 +1,35 @@
+.profile-add-info {
+    .bio {
+        background-color: var(--bg2);
+        padding: 20px;
+        border-radius: var(--card-radius);
+        cursor: pointer;
+
+        .text {
+            color: var(--text-color3);
+
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin: 0 0 6px;
+
+            transition: all 0.3s ease;
+
+            &.invisible {
+                display: none;
+            }
+
+            &.clamped {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                line-clamp: 3;
+                overflow: hidden;
+            }
+
+            &.expanded {
+                display: block;
+                overflow: visible;
+            }
+        }
+    }
+}

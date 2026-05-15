@@ -1,0 +1,41 @@
+.code-inputs-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    .cell {
+        width: 44px;
+        font-size: 2.4rem;
+        text-align: center;
+        padding: 6px;
+        background-color: var(--input);
+        background: var(--text-input-bg);
+        color: var(--text-input-forecolor);
+        border-radius: var(--inputs-radius);
+        outline: 2px solid transparent;
+        border: none;
+        transition: all .2s ease;
+        caret-color: transparent;
+    }
+
+    .cell.waiting {
+        animation: jumping 0.6s;
+        animation-iteration-count: infinite;
+    }
+
+    .cell.filled {
+        outline: var(--text-input-filled-border);
+    }
+
+    .cell:focus {
+        outline: var(--text-input-focus-border) !important;
+    }
+
+    .cell.success {
+        outline: var(--text-input-success-border);
+    }
+
+    .cell.error {
+        outline: var(--text-input-error-border);
+        animation: tremble 0.35s;
+    }
+}

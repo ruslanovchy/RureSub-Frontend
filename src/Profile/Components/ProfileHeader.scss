@@ -1,0 +1,95 @@
+
+.profile-header {
+    position: relative;
+}
+
+.banner {
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 140px;
+    border-radius: 12px;
+    background-color: var(--profile-container-bg);
+    object-fit: cover;
+
+    @media (max-width: 500px) {
+        height: 120px;
+    }
+}
+
+.main-info {
+    position: absolute;
+    top: 110px;
+    left: 30px;
+    display: flex;
+
+    .avatar {
+        .avatar-image {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            outline: 6px solid var(--bg);
+        }
+    }
+
+    .names {
+        margin: 42px 0 0 20px;
+
+        p {
+            margin: 0;
+        }
+
+        .display-name-p {
+            font-size: 1.8rem;
+            font-family: var(--tertiary-font);
+            font-weight: 600;
+            padding: 0;
+        }
+
+        .user-name-p {
+            font-size: 1rem;
+            color: var(--user-name-color);
+            padding: 0;
+        }
+
+    }
+
+    .additional-buttons {
+        margin: 48px 0 0 16px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .change-profile-button {
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    @media (max-width: 500px) {
+        top: 98px;
+        .names {
+            margin: 32px 0 0 20px;
+            .display-name-p {
+                font-size: 1.6rem;
+            }
+            .user-name-p {
+                font-size: 0.9rem;
+            }
+        }
+
+        .additional-buttons {
+            margin: 38px 0 0 16px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .avatar {
+            .avatar-image {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    }
+}

@@ -1,0 +1,179 @@
+@use "styles/buttons";
+@use "styles/inputs";
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --modal-card-color: #39373A;
+
+    --logo-color: white;
+
+    --text-color: white;
+    --text-color2: rgb(235, 235, 235);
+    --text-color3: rgb(216, 216, 216);
+    --text-color4: rgb(180, 180, 180);
+    --text-color5: rgb(146, 146, 146);
+    --text-color6: rgb(95, 95, 95);
+
+    --error-color: rgb(238, 102, 102);
+
+    --separator-color: rgb(82, 82, 82);
+    --secondary-separator-color: white;
+
+    // backgrounds
+
+    --bg: #1f1e20;
+    --bg2: #2a292b;
+    --bg3: #373638;
+
+    // buttons
+
+    --primary-button-bg: #6D44C0;
+    --primary-button-hover-bg: #744cc4;
+    --primary-button-color: white;
+
+    --secondary-button-bg: #434247;
+    --secondary-button-hover-bg: #514f55;
+    --secondary-button-color: white;
+
+    --disabled-button-bg: #5f5e61;
+    --disabled-button-color: white;
+
+    --auth-service-button-bg: #ffffff;
+    --auth-service-button-hover-bg: #fcfbff;
+    --auth-service-button-color: rgb(0, 0, 0);
+
+    --close-button-bg: #514F52;
+    --close-button-hover-bg: #676668;
+    --close-button-color: rgb(255, 255, 255);
+
+    --transparent-button-hover-bg: #3b3a3b;
+
+    --avatar-button-outline: 3px solid transparent;
+    --avatar-button-hover-outline: 3px solid #8258d4;
+
+    --change-profile-button-bg: #514F52;
+    --change-profile-button-hover-bg: #676668;
+    --change-profile-button-color: #ffffff;
+
+    --toggle-slider-bg: rgb(80, 80, 80);
+    --toggle-slider-color: white;
+    --toggle-checked-slider-bg: rgb(39, 142, 226);
+
+    // inputs
+
+    --text-input-bg: #514F52;
+    --text-input-forecolor: white;
+    --text-input-placeholder-forecolor: rgb(209, 209, 209);
+    --text-input-focus-border: 2px solid white;
+    --text-input-error-border: 2px solid var(--error-color);
+
+    --text-input-filled-border: 2px solid rgb(183, 121, 255);
+    --text-input-success-border: 2px solid rgb(88, 241, 41);
+
+    --toast-bg: #39373A;
+    --toast-border-color: #838383;
+
+    --modal-header-color: white;
+
+    --link-color: #6198FD;
+    --link-hover-color: #94baff;
+
+    --card-radius: 24px;
+    --buttons-radius: 12px;
+    --inputs-radius: 12px;
+
+    // profile
+
+    --profile-container-bg: #514F52;
+
+    --display-name-color: white;
+    --user-name-color: rgb(148, 148, 148);
+
+    // bars
+
+    --scrollbar-thumb-color: rgba(180, 180, 180, 0.3);
+    --loading-bar-bg: #744cc4;
+
+    // fonts
+
+    --logo-font: "Jaro", sans-serif;
+    --secondary-font: "Lalezar", sans-serif;
+    --tertiary-font: "Heebo", sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--tertiary-font);
+    background: var(--bg);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-family: var(--tertiary-font);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--link-hover-color);
+    }
+}
+
+p {
+    color: var(--text-color);
+}
+
+
+.toast {
+  background: var(--toast-bg) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--toast-border-color);
+}
+
+
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+
+  a {
+    font-size: 0.8rem;;
+  }
+}
+
+// scrollbar
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 4px;
+}
+
+/* Для Firefox */
+* {
+  scrollbar-color: var(--scrollbar-thumb-color) transparent;
+  scrollbar-width: thin;
+}

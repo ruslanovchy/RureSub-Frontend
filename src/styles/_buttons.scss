@@ -1,0 +1,196 @@
+.primary-button {
+    background-color: var(--primary-button-bg);
+    color: var(--primary-button-color);
+    border: none;
+    height: 40px;
+    padding: 2px 20px 0 20px;
+    border-radius: var(--buttons-radius);
+    font-family: var();
+    font-family: var(--secondary-font);
+    font-size: 1.2rem;
+    transition: 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--primary-button-hover-bg);
+    }
+
+    &.small {
+        font-size: 1rem;
+        padding: 1px 16px 0 16px;
+        @media (max-width: 500px) {
+            font-size: 0.9rem;
+            padding: 2px 14px 0 14px;
+        }
+    }
+
+    &:disabled {
+        background-color: var(--disabled-button-bg);
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 500px) {
+        height: 34px;
+        padding: 2px 16px 0 16px;
+    }
+}
+
+.secondary-button {
+    background-color: var(--secondary-button-bg);
+    color: var(--secondary-button-color);
+    border: none;
+    height: 40px;
+    padding: 2px 20px 0 20px;
+    border-radius: var(--buttons-radius);
+    font-family: var();
+    font-family: var(--secondary-font);
+    font-size: 1.2rem;
+    transition: 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--secondary-button-hover-bg);
+    }
+    
+    &.small {
+        font-size: 1rem;
+        padding: 1px 16px 0 16px;
+
+        @media (max-width: 500px) {
+            font-size: 0.9rem;
+            padding: 2px 14px 0 14px;
+        }
+    }
+    
+    &:disabled {
+        background-color: var(--disabled-button-bg);
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 500px) {
+        height: 34px;
+        padding: 2px 16px 0 16px;
+    }
+}
+
+
+.auth-service-button {
+    background-color: var(--auth-service-button-bg);
+    color: var(--auth-service-button-color);
+    border: none;
+    height: 46px;
+    padding: 2px 20px 0px 20px;
+    border-radius: var(--buttons-radius);
+    font-family: var(--tertiary-font);
+    font-size: 01rem;
+    margin: 20px 0 0 0;
+    transition: 0.2s ease;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--auth-service-button-hover-bg);
+    }
+
+    img {
+        position: absolute;
+        height: 24px;
+        top: 10px;
+        left: 18px;
+    }
+
+    @media (max-width: 500px) {
+        height: 36px;
+        padding: 6px 6px 2px 6px;
+        margin: 14px 0 0 0;
+
+        img {
+            height: 20px;
+            top: 8px;
+            left: 18px;
+        }
+    }
+}
+
+.close-button {
+    background-color: var(--close-button-bg);
+    border: none;
+    color: var(--close-button-color);
+    padding: 10px 10px 6px 10px;
+    border-radius: 45%;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--close-button-hover-bg);
+    }
+
+    @media (max-width: 500px) {
+        padding: 6px 6px 2px 6px;
+    }
+}
+
+.transparent-button {
+    background-color: transparent;
+    border: none;
+    color: var(--close-button-color);
+    padding: 10px 10px 6px 10px;
+    border-radius: var(--buttons-radius);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--transparent-button-hover-bg);
+    }
+    @media (max-width: 500px) {
+        padding: 6px 6px 4px 6px;
+    }
+}
+
+.profile-button {
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    border-radius: 50%;
+    border: none;
+    outline: var(--avatar-button-outline);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        outline: var(--avatar-button-hover-outline);
+    }
+
+    & img {
+        border-radius: 50%;
+        width: 100%;
+    }
+
+    @media (max-width: 500px) {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+.change-profile-button {
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 8px;
+
+    background-color: var(--change-profile-button-bg);
+
+    &:hover {
+        background-color: var(--change-profile-button-hover-bg);
+    }
+
+    @media (max-width: 500px) {
+        width: 26px;
+        height: 26px;
+        padding: 7px;
+    }
+}

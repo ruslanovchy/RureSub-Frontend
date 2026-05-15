@@ -1,0 +1,26 @@
+.toggle-setting-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    .toggle-container {
+        margin: 0 20px 0 0;
+    }
+}
+
+.setting-main-info {
+    p {
+        padding: 0;
+        margin: 0;
+    }
+
+    .setting-name {
+        font-size: 1rem;
+    }
+
+    .setting-description {
+        color: var(--text-color5);
+        font-size: 0.9rem;
+    }
+}

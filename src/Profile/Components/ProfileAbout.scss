@@ -1,0 +1,59 @@
+.profile-about {
+    background: var(--bg2);
+    border-radius: var(--card-radius);
+    padding: 10px 20px 20px 20px;
+
+    h3 {
+        color: var(--text-color);
+    }
+
+    .profile-about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .indicator-group {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 14px 0;
+
+        .counter {
+            margin: 0;
+            padding: 0;
+            font-size: 1.1rem;
+        }
+
+        .title {
+            margin: 6px 0 0 0;
+            padding: 0;
+            font-size: 0.9rem;
+            color: var(--text-color4)
+
+        }
+    }
+
+    @media (max-width: 500px) {
+        padding: 20px 10px;
+
+        h3 {
+            display: none;
+        }
+
+        .profile-about-grid {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .indicator-group {
+            min-width: 60px;
+            margin: 0 0 0px 0;
+            .counter {
+                text-align: center;
+            }
+            .title {
+                margin: 0;
+                text-align: center;
+            }
+        }
+    }
+}

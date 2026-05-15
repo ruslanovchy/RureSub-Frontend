@@ -1,0 +1,90 @@
+input[type="text"], input[type="password"] {
+    background: var(--text-input-bg);
+    border-radius: 12px;
+    border: none;
+    color: var(--text-input-forecolor);
+    padding: 15px;
+    font-size: 1rem;
+    outline: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+    border-radius: var(--inputs-radius);
+
+    &.error {
+        outline: var(--text-input-error-border);
+    }
+
+    &:focus {
+        outline: var(--text-input-focus-border);
+    }
+
+    &::placeholder {
+        color: var(--text-input-placeholder-forecolor);
+    }
+
+    @media (max-width: 500px) {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+input[type="text"].secondary-input, input[type="password"].secondary-input {
+    background: var(--text-input-bg);
+    color: var(--text-input-forecolor);
+    border-radius: var(--inputs-radius);
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    outline: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &.error {
+        outline: var(--text-input-error-border);
+    }
+
+    &:focus {
+        outline: var(--text-input-focus-border);
+    }
+
+    &::placeholder {
+        color: var(--text-input-placeholder-forecolor);
+    }
+
+    @media (max-width: 500px) {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+textarea[type="text"] {
+    background: var(--text-input-bg);
+    border-radius: 12px;
+    border: none;
+    color: var(--text-input-forecolor);
+    padding: 10px;
+    font-size: 1rem;
+    outline: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+    border-radius: var(--inputs-radius);
+    font-family: var(--tertiary-font);
+    resize: none;
+
+    &.error {
+        outline: var(--text-input-error-border);
+    }
+
+    &:focus {
+        outline: var(--text-input-focus-border);
+    }
+
+    &::placeholder {
+        color: var(--text-input-placeholder-forecolor);
+    }
+
+    @media (max-width: 500px) {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
