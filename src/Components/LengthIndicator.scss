@@ -1,0 +1,10 @@
+.length-indicator {
+    text-align: end;
+    margin: 6px 0 0 0;
+    font-size: 0.8rem;
+    color: var(--text-color4);
+
+    &.error {
+        color: var(--error-color);
+    }
+}

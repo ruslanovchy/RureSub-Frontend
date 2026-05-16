@@ -1,0 +1,50 @@
+.create-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.create-container {
+    max-width: 900px;
+    width: 100%;
+    padding: 10px;
+
+    h2 {
+        padding: 0;
+        margin: 0;
+        color: var(--text-color);
+        font-size: 1.8rem;
+    }
+
+    input[type="text"] {
+        margin: 20px 0 0 0;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    textarea {
+        margin: 12px 0 0 0;
+        width: 100%;
+        max-width: 600px;
+        height: 200px;
+        padding: 14px;
+    }
+
+    .indicator-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        max-width: 600px;
+
+        margin: 6px 0 0 0;
+    }
+
+    .buttons {
+        margin: 20px 0 0 0;
+        display: flex;
+        flex-direction: row-reverse;
+        max-width: 600px;
+        gap: 10px;
+    }
+}
