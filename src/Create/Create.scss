@@ -20,22 +20,21 @@
     input[type="text"] {
         margin: 20px 0 0 0;
         width: 100%;
-        max-width: 600px;
+        max-width: 800px;
     }
 
-    textarea {
+    .tiptap-container {
         margin: 12px 0 0 0;
         width: 100%;
-        max-width: 600px;
-        height: 200px;
-        padding: 14px;
+        max-width: 800px;
+        height: 400px;
     }
 
     .indicator-group {
         display: grid;
         grid-template-columns: 1fr 1fr;
         width: 100%;
-        max-width: 600px;
+        max-width: 800px;
 
         margin: 6px 0 0 0;
     }
@@ -44,7 +43,7 @@
         margin: 20px 0 0 0;
         display: flex;
         flex-direction: row-reverse;
-        max-width: 600px;
+        max-width: 800px;
         gap: 10px;
     }
 }

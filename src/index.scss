@@ -27,6 +27,8 @@
     --bg: #1f1e20;
     --bg2: #2a292b;
     --bg3: #373638;
+    --bg4: #4d4c4e;
+    --bg5: #747177;
 
     // buttons
 
@@ -64,7 +66,8 @@
 
     // inputs
 
-    --text-input-bg: #424142;
+    --text-input-bg: #383738;
+    --text-input-code-bg: #242224;
     --text-input-forecolor: white;
     --text-input-placeholder-forecolor: rgb(209, 209, 209);
     --text-input-focus-border: 2px solid white;
@@ -78,8 +81,9 @@
 
     --modal-header-color: white;
 
-    --link-color: #6198FD;
-    --link-hover-color: #94baff;
+    --link-color:rgb(117, 165, 253);
+    --link-color2: #9cbfff;
+    --link-hover-color: #a1c2ff;
 
     --card-radius: 24px;
     --buttons-radius: 12px;

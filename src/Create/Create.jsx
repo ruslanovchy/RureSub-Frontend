@@ -5,6 +5,7 @@ import LengthIndicator from '../Components/LengthIndicator';
 import ErrorIndicator from '../Components/ErrorIndicator';
 import { api } from '../api';
 import { notifyPromise } from '../notification';
+import TipTap from '../Components/TipTap/TipTap.jsx';
 
 function Create() {
     const [title, setTitle] = useState('');
@@ -60,13 +61,14 @@ function Create() {
                         text={title}
                         maxLength={100}/>
                 </div>
-                <textarea 
+                <TipTap/>
+                {/* <textarea 
                     className={`${errors.bodyText ? 'error' : ''}`}
                     name="" 
                     id=""
                     placeholder='Body text'
                     value={bodyText}
-                    onChange={(e)=>{setBodyText(e.target.value);setErrors({});}}></textarea>
+                    onChange={(e)=>{setBodyText(e.target.value);setErrors({});}}></textarea> */}
                 <div className="indicator-group">
                     <ErrorIndicator
                         errors={errors}

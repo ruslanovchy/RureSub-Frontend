@@ -139,7 +139,7 @@
     transition: all 0.2s ease-in-out;
     cursor: pointer;
 
-    &:hover {
+    &:hover, &.active {
         background-color: var(--transparent-button-hover-bg);
     }
     @media (max-width: 500px) {
