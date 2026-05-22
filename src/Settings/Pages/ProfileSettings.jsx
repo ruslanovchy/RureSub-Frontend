@@ -10,34 +10,35 @@ function ProfileSettings() {
     const profile = useProfileStore(store => store.data);
     const setProfileData = useProfileStore(store => store.setData);
     const [showFollowers, setShowFollowers] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
-        if (profile)
+        if (profile) {
             setShowFollowers(profile.showFollowers);
+        }
+
     }, [profile])
 
-    useEffect((mode) => {
-        if (profile && showFollowers !== profile.showFollowers) {
-            const formData = new FormData();
+    function handleSetShowFollowers(value) {
+        const formData = new FormData();
 
-            formData.append('userId', profile.userId);
-            formData.append('value', showFollowers);
+        formData.append('userId', profile.userId);
+        formData.append('value', value);
 
-            const promise = api.patch('profile/showfollowers', formData);
+        const promise = api.patch('profile/showfollowers', formData);
 
-            notifyPromise(promise, {
-                loading: 'Loading...',
-                success: 'Success!',
-                error: 'Error occured.'
-            });
+        notifyPromise(promise, {
+            loading: 'Loading...',
+            success: 'Success!',
+            error: 'Error occured.'
+        });
 
-            promise.then(response => {
-                if (response.status === 200) {
-                    setProfileData({...profile, showFollowers: showFollowers});
-                }
-            })
-        }
-    }, [showFollowers])
+        promise.then(response => {
+            if (response.status === 200) {
+                setProfileData({...profile, showFollowers: value});
+            }
+        })
+    }
 
     return (
         <div className="settings-page profile-settings">
@@ -64,7 +65,7 @@ function ProfileSettings() {
 
             <ToggleSetting
                 checked={showFollowers}
-                setChecked={setShowFollowers}
+                setChecked={handleSetShowFollowers}
                 settingName='Show followers'
                 description={'Show followers count to other users'}/>
 
