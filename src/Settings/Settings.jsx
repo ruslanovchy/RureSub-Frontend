@@ -27,7 +27,7 @@ async function getSettings(user) {
     return { 
         profileData: profileResponse.data,
         meDetailedData: meDetailedResponse.data,
-     }
+    }
 }
 
 function Settings() {

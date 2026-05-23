@@ -20,6 +20,7 @@ import { useProfileStore } from './stores/profileStore.js'
 import { useQuery } from '@tanstack/react-query'
 import SecuritySettings from './Settings/Pages/SecuritySettings.jsx'
 import Create from './Create/Create.jsx'
+import Home from './Home/Home.jsx'
 
 export let globalNavigate = null;
 
@@ -49,6 +50,7 @@ function App() {
 				<Navigation />
 
 				<Routes>
+					<Route path='/' element={<Home/>}/>
 					<Route path='/user/:userName' element={<Profile/>}></Route>
 					<Route path='/settings' element={<Settings/>}>
 						<Route path='account' element={<AccountSettings/>}/>

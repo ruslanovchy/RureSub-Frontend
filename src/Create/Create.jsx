@@ -34,7 +34,7 @@ function Create() {
         if (Object.keys(newErrors).length === 0) {
             const formData = new FormData();
 
-            const promise = api.post('posts', {
+            const promise = api.post('posts/', {
                 title,
                 content: contentJson
             });

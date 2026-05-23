@@ -42,7 +42,7 @@ function FixedButtons() {
             <button 
                 className={`transparent-button ${editorState.isBold ? 'active' : ''}`}
                 onClick={(e) => { editor.chain().focus().toggleBold().run()}}
-                style={{ 'fontStyle': 'bold', 'font-weight': '600' }}>
+                style={{ 'fontStyle': 'bold', 'fontWeight': '600' }}>
                 B
             </button>
             <button
