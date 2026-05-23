@@ -1,7 +1,7 @@
 import { useEditor, EditorContent, EditorContext, useEditorState, Editor } from "@tiptap/react";
 import { FloatingMenu, BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { createContext, forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import "./TipTap.scss"
 import FixedButtons from "./FixedButtons";
 import Heading from "@tiptap/extension-heading";
@@ -17,8 +17,16 @@ import { all, createLowlight } from 'lowlight'
 import { Markdown } from "@tiptap/markdown";
 import Link from "@tiptap/extension-link";
 import { EditorState } from "@tiptap/pm/state";
+import LinkModal from "./Modals/LinkModal";
+import CharacterCount from "@tiptap/extension-character-count";
 
-function TipTap() {
+export const TipTapContext = createContext();
+
+const TipTap = forwardRef(({ onChange, maxLength }, ref) => {
+    const [isOverlayOpened, setIsOverlayOpened] = useState(false);
+    const [overlayOpenedModal, setOverlayOpenedModal] = useState('');
+    const [enteredLink, setEnteredLink] = useState('');
+
     const lowlight = createLowlight(all);
 
     const editor = useEditor({
@@ -47,8 +55,17 @@ function TipTap() {
                 inclusive: false
             }),
             Markdown,
+            CharacterCount.configure({
+                limit: maxLength
+            }),
         ],
-        content: ''
+        content: '',
+        onUpdate: ({ editor }) => {
+            onChange?.({
+                json: editor.getJSON(),
+                length: editor.storage.characterCount.characters()
+            })
+        }
     })
 
     const editorState = useEditorState({
@@ -75,10 +92,9 @@ function TipTap() {
             }
         }
     });
-    
-    const setLink = useCallback(() => {
+
+    const setLink = useCallback((url) => {
         const previousUrl = editorState.currentLink.href;
-        const url = window.prompt('URL', previousUrl);
 
         if (url === null) return;
         if (url === '') {
@@ -94,17 +110,46 @@ function TipTap() {
         }
     });
 
-    const providerValue = useMemo(() => ({editor, editorState, setLink}), [editor])
+    function onLink() {
+        setIsOverlayOpened(true);
+        setOverlayOpenedModal('link');
+    }
 
-    const textareaWrapperRef = useRef();
+    const providerValue = useMemo(() => ({editor, editorState, onLink}), [editor])
 
-    useEffect(() => {
-        console.log(editorState.currentLink);
-    }, [editorState.isLink])
+    const textareaWrapperRef = useRef(null);
+    const overlayRef = useRef(null);
+
+    const tipTapContextValue = {
+        isOverlayOpened,
+        setIsOverlayOpened,
+        overlayOpenedModal,
+        setOverlayOpenedModal,
+        setLink
+    }
+
+    useImperativeHandle(ref, () => ({
+        getJSON: () => editor.getJSON(),
+        length: () => editor.storage.characterCount.characters(),
+    }));
 
     return (
         <div className='tiptap-container'>
+            <TipTapContext.Provider value={tipTapContextValue}>
             <EditorContext.Provider value={providerValue}>
+                <div 
+                    className={`overlay ${isOverlayOpened ? 'opened' : ''}`}
+                    onMouseDown={(e) => {
+                        if (e.target == overlayRef.current) {
+                            setIsOverlayOpened(false);
+                        }
+                    }}
+                    ref={overlayRef}>
+                    {
+                        overlayOpenedModal === 'link' ?
+                        <LinkModal/> : <></>
+                    }
+                </div>
                 <FixedButtons/>
                 <div className="tiptap-textarea-wrapper"
                     ref={textareaWrapperRef}
@@ -114,7 +159,7 @@ function TipTap() {
                     }}>
                     <EditorContent editor={editor}/>
 
-                    <BubbleMenu
+                    {/* <BubbleMenu
                         editor={editor}
                         tippyOptions={{ duration: 100 }}
                         shouldShow={({ editor, from, to }) => {
@@ -124,11 +169,13 @@ function TipTap() {
                         <p>
                             <a target="_blank" href={editorState.currentLink.href}>{editorState.currentLink.href}</a>
                         </p>
-                    </BubbleMenu>
+                    </BubbleMenu> */}
                 </div>
             </EditorContext.Provider>
+
+            </TipTapContext.Provider>
         </div>
     )
-}
+})
 
 export default TipTap;

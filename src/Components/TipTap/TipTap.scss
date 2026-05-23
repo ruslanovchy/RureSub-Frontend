@@ -119,4 +119,13 @@
             color: var(--link-color);
         }
     }
+
+    .overlay {
+        h3 {
+            margin: 6px 0 4px 0;
+        }
+        .modal-card {
+            padding: 20px;
+        }
+    }
 }

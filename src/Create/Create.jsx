@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './Create.scss'
-import { bodyTextRegex, titleRegex } from '../validation/postValidation';
+import { bodyTextMaxLength, titleRegex } from '../validation/postValidation';
 import LengthIndicator from '../Components/LengthIndicator';
 import ErrorIndicator from '../Components/ErrorIndicator';
 import { api } from '../api';
 import { notifyPromise } from '../notification';
 import TipTap from '../Components/TipTap/TipTap.jsx';
+import { globalNavigate } from '../App.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function Create() {
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState('');
-    const [bodyText, setBodyText] = useState('');
     const [errors, setErrors] = useState({});
+
+    const editorRef = useRef(null);
+    const [editorData, setEditorData] = useState({ json: null, length: 0 });
 
     function submit() {
         const newErrors = {};
@@ -19,17 +25,19 @@ function Create() {
             newErrors.title = 'Invalid title!';
         }
 
-        if (!bodyTextRegex.test(bodyText)) {
-            newErrors.bodyText = 'Invalid body text!';
+        const contentJson = editorRef.current?.getJSON();
+
+        if (!contentJson || contentJson.content?.length === 0 || editorData.length > bodyTextMaxLength) {
+            newErrors.content = 'Invalid body text!';
         }
 
         if (Object.keys(newErrors).length === 0) {
             const formData = new FormData();
 
-            formData.append('title', title);
-            formData.append('bodyText', bodyText);
-
-            const promise = api.post('posts', formData);
+            const promise = api.post('posts', {
+                title,
+                content: contentJson
+            });
 
             notifyPromise(promise, {
                 loading: 'Loading...',
@@ -37,7 +45,10 @@ function Create() {
                 success: 'Done!'
             });
 
-            
+            promise.then(response => {
+                if (response !== 200) return;
+                navigate('/');
+            })
         }
 
         setErrors(newErrors);
@@ -61,7 +72,10 @@ function Create() {
                         text={title}
                         maxLength={100}/>
                 </div>
-                <TipTap/>
+                <TipTap 
+                    ref={editorRef}
+                    onChange={setEditorData}
+                    maxLength={4000}/>
                 {/* <textarea 
                     className={`${errors.bodyText ? 'error' : ''}`}
                     name="" 
@@ -72,10 +86,10 @@ function Create() {
                 <div className="indicator-group">
                     <ErrorIndicator
                         errors={errors}
-                        propName={'bodyText'}/>
+                        propName={'content'}/>
                     <LengthIndicator
-                        text={bodyText}
-                        maxLength={1000}/>
+                        length={editorData.length}
+                        maxLength={bodyTextMaxLength}/>
                 </div>
                 <div className="buttons">
                     <button 

@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.100.8",
     "@tiptap/extension-blockquote": "^3.23.4",
+    "@tiptap/extension-character-count": "^3.23.4",
     "@tiptap/extension-code-block-lowlight": "^3.23.4",
     "@tiptap/extension-heading": "^3.23.4",
     "@tiptap/extension-link": "^3.23.4",

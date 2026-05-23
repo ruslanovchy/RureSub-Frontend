@@ -14,3 +14,105 @@
     padding: 64px 0 0 0;
   }
 }
+
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--tertiary-font);
+    background: var(--bg);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-family: var(--tertiary-font);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--link-hover-color);
+    }
+}
+
+p {
+    color: var(--text-color);
+}
+
+
+.toast {
+  background: var(--toast-bg) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--toast-border-color);
+}
+
+
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+
+  a {
+    font-size: 0.8rem;;
+  }
+}
+
+
+.overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  display: flex;
+  visibility: hidden;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+  z-index: 1000;
+
+  .modal-card {
+      background-color: var(--bg2);
+      border-radius: var(--card-radius);
+      padding: 20px 20px;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.2s ease;
+
+      .close-button {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+      }
+  }
+
+  &.opened {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s ease, visibility 0s;
+
+    .modal-card {
+      transform: scale(1);
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+}

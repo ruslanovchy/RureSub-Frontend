@@ -108,59 +108,6 @@
     --tertiary-font: "Heebo", sans-serif;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-    font-family: var(--tertiary-font);
-    background: var(--bg);
-}
-
-a {
-    color: var(--link-color);
-    text-decoration: none;
-    font-family: var(--tertiary-font);
-    transition: all 0.2s ease;
-    cursor: pointer;
-
-    &:hover {
-        color: var(--link-hover-color);
-    }
-}
-
-p {
-    color: var(--text-color);
-}
-
-
-.toast {
-  background: var(--toast-bg) !important;
-  color: white !important;
-  border-radius: 8px !important;
-  border: 1px solid var(--toast-border-color);
-}
-
-
-
-@media (max-width: 500px) {
-  h1 {
-    font-size: 1.6rem;
-  }
-  h2 {
-    font-size: 1.3rem;
-  }
-  h3 {
-    font-size: 1rem;
-  }
-
-  p {
-    font-size: 0.8rem;
-  }
-
-  a {
-    font-size: 0.8rem;;
-  }
-}
-
 // scrollbar
 
 ::-webkit-scrollbar {

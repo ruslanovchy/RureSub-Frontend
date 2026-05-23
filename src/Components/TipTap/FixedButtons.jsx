@@ -4,10 +4,11 @@ import codeIcon from "../../assets/icons/code.svg"
 import codeBlockIcon from "../../assets/icons/code-block.svg"
 import quoteIcon from "../../assets/icons/quote.svg"
 import chainIcon from "../../assets/icons/chain.svg"
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
+import { TipTapContext } from "./TipTap";
 
 function FixedButtons() {
-    const { editor, setLink } = useCurrentEditor();
+    const { editor, onLink } = useCurrentEditor();
 
     const editorState = useEditorState({
         editor,
@@ -33,6 +34,8 @@ function FixedButtons() {
             }
         }
     });
+
+    const tipTapContext = useContext(TipTapContext);
 
     return (
         <div className="fixed-buttons">
@@ -75,7 +78,7 @@ function FixedButtons() {
             <div className="separator"></div>
             <button 
                 className={`transparent-button ${editorState.isLink ? 'active' : ''}`}
-                onClick={setLink}>
+                onClick={onLink}>
                 <img src={chainIcon} alt="" />
             </button>
             <div className="separator"></div>
