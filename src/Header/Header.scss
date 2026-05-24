@@ -8,6 +8,7 @@
   width: 100vw;
   background: var(--bg);
   height: 64px;
+  z-index: 999;
   
   .buttons-container {
     display: flex;

@@ -98,7 +98,6 @@
         font-size: 1rem;
         outline: none;
         transition: all 0.2s ease;
-        position: relative;
         border-radius: var(--inputs-radius);
         font-family: var(--tertiary-font);
         overflow-y: auto;
@@ -128,5 +127,9 @@
         .modal-card {
             padding: 20px;
         }
+    }
+
+    .ProseMirror {
+        position: static;
     }
 }

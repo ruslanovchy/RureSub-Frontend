@@ -22,7 +22,7 @@ import CharacterCount from "@tiptap/extension-character-count";
 
 export const TipTapContext = createContext();
 
-const TipTap = forwardRef(({ onChange, maxLength }, ref) => {
+const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, ref) => {
     const [isOverlayOpened, setIsOverlayOpened] = useState(false);
     const [overlayOpenedModal, setOverlayOpenedModal] = useState('');
     const [enteredLink, setEnteredLink] = useState('');
@@ -35,6 +35,7 @@ const TipTap = forwardRef(({ onChange, maxLength }, ref) => {
                 heading: false,
                 codeBlock: false,
                 link: false,
+                blockquote: false,
             }),
             Heading.configure({
                 levels: [1, 2]
@@ -65,7 +66,9 @@ const TipTap = forwardRef(({ onChange, maxLength }, ref) => {
                 json: editor.getJSON(),
                 length: editor.storage.characterCount.characters()
             })
-        }
+        },
+        editable: editable,
+        content: content
     })
 
     const editorState = useEditorState({
@@ -131,6 +134,9 @@ const TipTap = forwardRef(({ onChange, maxLength }, ref) => {
     useImperativeHandle(ref, () => ({
         getJSON: () => editor.getJSON(),
         length: () => editor.storage.characterCount.characters(),
+        setContent: (content) => {
+            editor.commands.setContent(content);
+        }
     }));
 
     return (
@@ -150,7 +156,9 @@ const TipTap = forwardRef(({ onChange, maxLength }, ref) => {
                         <LinkModal/> : <></>
                     }
                 </div>
-                <FixedButtons/>
+                {
+                    editable && <FixedButtons/>
+                }
                 <div className="tiptap-textarea-wrapper"
                     ref={textareaWrapperRef}
                     onClick={(e)=>{

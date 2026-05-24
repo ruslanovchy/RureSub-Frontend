@@ -1,31 +1,78 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { api } from '../api';
 import './Home.scss'
 import Post from './Post/Post';
+import { useCallback, useEffect, useRef } from 'react';
 
-async function getFeed() {
-    const response = await api.get('feed');
+async function getFeed({ pageParam = null }) {
+    let url = 'posts/feed';
+
+    if (pageParam) {
+        url += `?lastPostedAt=${pageParam.lastPostedAt}`;
+        url += `&lastId=${pageParam.lastId}`;
+    }
+
+    console.log('fetch');
+    const response = await api.get(url);
 
     return response.data;
 }
 
 function Home() {
 
-    const { data, error, isLoading } = useQuery({
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        error, 
+    } = useInfiniteQuery({
         queryKey: ['feed'],
-        queryFn: () => getFeed(),
+        queryFn: getFeed,
+        initialPageParam: null,
+        getNextPageParam: (lastPage) => {
+            if (lastPage && lastPage.length === 0) {
+                return undefined;
+            }
+
+            const lastPost = lastPage[lastPage.length - 1];
+
+            return {
+                lastPostedAt: lastPost.postedAt,
+                lastId: lastPost.id
+            }
+        }
     })
+
+    const observerRef = useRef(null);
+
+    const loadingRef = useCallback((node) => {
+        if (observerRef.current) observerRef.current.disconnect();
+
+        if (node) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            });
+
+            observer.observe(node);
+            observerRef.current = observer;
+        }
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
     if (error) return;
     if (isLoading) return;
 
-    console.log(data);
+    const posts =
+        data?.pages.flatMap(page => page) ?? [];
 
     return (
         <div className="home-wrapper">
             <div className="home-container">
                 {
-                    data.map((p, i) => {
+                    posts.map((p, i) => {
                         return (
                             <Post
                                 key={p.id}
@@ -33,6 +80,11 @@ function Home() {
                         )
                     })
                 }
+                <div
+                    ref={loadingRef}
+                    className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
+                    <div className='circle'></div>
+                </div>
             </div>
         </div>
     )

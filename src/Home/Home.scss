@@ -1,11 +1,97 @@
+@keyframes circleAnimation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .home-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
-    padding: 10px;
+    padding: 40px 10px 10px 10px;
 
     .home-container {
         width: 100%;
         max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .loading-circle-container {
+            padding: 0 0 20px 0;
+            display: flex;
+            justify-content: center;
+            .circle {
+                width: 30px;
+                height: 30px;
+                border: 4px dashed var(--bg5);
+                border-radius: 50%;
+                animation: circleAnimation 1s linear infinite;
+            }
+
+            &.hidden {
+                display: none;
+            }
+        }
+    }
+
+
+    .post-container {
+        border-radius: var(--card-radius);
+        padding: 10px;
+        transition: all 0.1s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .post-header {
+            height: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            .left {
+                display: flex;
+                gap: 14px;
+                align-items: center;
+                cursor: pointer;
+
+                img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                }
+
+                .names {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .display-name {
+                    font-size: 1rem;
+                    color: var(--text-color);
+                    margin: 0;
+                }
+
+                .user-name {
+                    font-size: 0.75rem;
+                    color: var(--text-color5);
+                    margin: 0;
+                }
+            }
+            
+            .right {
+                display: flex;
+                justify-content: end;
+            }
+        }
+
+        &:hover {
+            background-color: var(--bg2);
+        }
+
+        .body {
+            h2 {
+                margin: 0 6px 8px 6px;
+            }
+        }
     }
 }
