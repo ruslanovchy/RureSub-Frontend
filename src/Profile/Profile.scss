@@ -21,10 +21,14 @@
     height: 100%;
     gap: 10px;
 
-    @media (max-width: 500px) {
+    @media (max-width: 900px) {
         display: flex;
         flex-direction: column-reverse;
         justify-content: start;
+        margin: 240px 0 0 0;
+    }
+
+    @media (max-width: 500px) {
         margin: 210px 0 0 0;
     }
 }

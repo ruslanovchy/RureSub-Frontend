@@ -1,0 +1,18 @@
+.list-navigation-container {
+    display: flex;
+    margin: 10px 0 10px 0;
+
+    .navigation-button {
+        font-weight: 400;
+        font-size: 1.1rem;
+        font-family: var(--tertiary-font);
+        padding: 0 8px 6px 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        border-bottom: 1px solid transparent;
+
+        &.selected {
+            border-bottom: 1px solid var(--text-color2)
+        }
+    }
+}

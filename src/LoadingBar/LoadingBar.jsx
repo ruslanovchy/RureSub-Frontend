@@ -3,7 +3,18 @@ import './LoadingBar.scss'
 import { useEffect, useState } from "react";
 
 function LoadingBar() {
-    const isFetching = useIsFetching();
+    const isFetching = useIsFetching({
+        predicate: (query) => {
+            const isFetching = query.state.status === 'pending';
+            
+            const isInfinite = 
+            query.state.data && 
+            'pages' in query.state.data && 
+            'pageParams' in query.state.data;
+
+            return isFetching && !isInfinite;
+        }
+    });
     const [barWidth, setBarWidth] = useState(0);
     const [visible, setVisible] = useState(false);
 

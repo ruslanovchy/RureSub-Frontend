@@ -1,0 +1,27 @@
+<svg width="64" height="64" viewBox="0 0 64 64" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Trash icon</title>
+  <desc>Delete trash can icon in Apple SF Regular style</desc>
+  <defs>
+    <mask id="body-mask">
+      <!-- Body shape white = visible -->
+      <path fill="white" d="M17.5 21 L19.8 51.2 C20 53.3 21.8 55 23.9 55 L40.1 55 C42.2 55 44 53.3 44.2 51.2 L46.5 21 Z"></path>
+      <!-- Vertical slot cutouts black = hidden -->
+      <rect fill="black" x="27.5" y="27" width="3" height="21" rx="1.5"></rect>
+      <rect fill="black" x="34" y="27" width="3" height="21" rx="1.5"></rect>
+    </mask>
+  </defs>
+
+  <style>
+    .s { fill: #1c1c1e; }
+    @media (prefers-color-scheme: dark) { .s { fill: #f2f2f7; } }
+  </style>
+
+  <!-- Lid handle -->
+  <rect class="s" x="25.5" y="7" width="13" height="4.5" rx="2.25"></rect>
+
+  <!-- Lid -->
+  <rect class="s" x="12" y="13.5" width="40" height="5" rx="2.5"></rect>
+
+  <!-- Body with slot cutouts via mask -->
+  <path class="s" mask="url(#body-mask)" d="M17.5 21 L19.8 51.2 C20 53.3 21.8 55 23.9 55 L40.1 55 C42.2 55 44 53.3 44.2 51.2 L46.5 21 Z"></path>
+</svg>

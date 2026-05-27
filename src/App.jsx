@@ -17,12 +17,18 @@ import Settings from './Settings/Settings.jsx'
 import ProfileSettings from './Settings/Pages/ProfileSettings.jsx'
 import AccountSettings from './Settings/Pages/AccountSettings.jsx'
 import { useProfileStore } from './stores/profileStore.js'
-import { useQuery } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import SecuritySettings from './Settings/Pages/SecuritySettings.jsx'
 import Create from './Create/Create.jsx'
 import Home from './Home/Home.jsx'
 
 export let globalNavigate = null;
+
+export const queryClient = new QueryClient();
+
+export function resetQuery(key) {
+  queryClient.removeQueries({ queryKey: key});
+} 
 
 function App() {
 	const navigate = useNavigate();
@@ -33,6 +39,7 @@ function App() {
 
 
 	return (
+      <QueryClientProvider client={queryClient}>
 		<div className='app-container'>
 			<Toaster
 				toastOptions={{
@@ -65,6 +72,7 @@ function App() {
             <AccountOverlay ref={accountOverlayRef}/>
 			
 		</div>
+      </QueryClientProvider>
 	)
 }
 

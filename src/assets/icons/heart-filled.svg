@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Heart filled</title>
+  <defs><style>
+    .s { fill: #f7253a; stroke: #f7253a; stroke-width: 6; }
+    @media (prefers-color-scheme: dark) { .s { fill: #f7253a; } }
+  </style></defs>
+  <path class="s" d="M32 52 C32 52 8 38 8 22 C8 14 14 8 22 8 C26.5 8 30.5 10.5 32 14 C33.5 10.5 37.5 8 42 8 C50 8 56 14 56 22 C56 38 32 52 32 52 Z"></path>
+</svg>

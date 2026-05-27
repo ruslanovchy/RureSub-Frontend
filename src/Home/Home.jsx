@@ -1,8 +1,9 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { api } from '../api';
 import './Home.scss'
-import Post from './Post/Post';
+import PostCard from '../Components/PostCard';
 import { useCallback, useEffect, useRef } from 'react';
+import { queryClient } from '../App';
 
 async function getFeed({ pageParam = null }) {
     let url = 'posts/feed';
@@ -12,7 +13,6 @@ async function getFeed({ pageParam = null }) {
         url += `&lastId=${pageParam.lastId}`;
     }
 
-    console.log('fetch');
     const response = await api.get(url);
 
     return response.data;
@@ -32,7 +32,7 @@ function Home() {
         queryFn: getFeed,
         initialPageParam: null,
         getNextPageParam: (lastPage) => {
-            if (lastPage && lastPage.length === 0) {
+            if (!lastPage || lastPage.length === 0) {
                 return undefined;
             }
 
@@ -62,6 +62,10 @@ function Home() {
         }
     }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
+    useEffect(() => {
+        queryClient.resetQueries({ queryKey: ['feed'] })
+    }, [])
+
     if (error) return;
     if (isLoading) return;
 
@@ -74,7 +78,7 @@ function Home() {
                 {
                     posts.map((p, i) => {
                         return (
-                            <Post
+                            <PostCard
                                 key={p.id}
                                 data={p}/>
                         )
