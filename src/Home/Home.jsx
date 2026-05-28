@@ -46,6 +46,7 @@ function Home() {
     })
 
     const observerRef = useRef(null);
+    const observerPostRef = useRef(null);
 
     const loadingRef = useCallback((node) => {
         if (observerRef.current) observerRef.current.disconnect();
@@ -78,14 +79,16 @@ function Home() {
                 {
                     posts.map((p, i) => {
                         return (
-                            <PostCard
-                                key={p.id}
-                                data={p}/>
+                            <div
+                                ref={i === posts.length - 3 ? loadingRef : null}>
+                                <PostCard
+                                    key={p.id}
+                                    data={p}/>
+                            </div>
                         )
                     })
                 }
                 <div
-                    ref={loadingRef}
                     className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
                     <div className='circle'></div>
                 </div>

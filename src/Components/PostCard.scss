@@ -6,6 +6,7 @@
     flex-direction: column;
     gap: 10px;
     position: relative;
+    cursor: pointer;
 
     .post-header {
         height: 50px;
@@ -126,7 +127,7 @@
 
     .footer {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: auto 1fr;
 
         .left {
             height: 26px;

@@ -122,21 +122,23 @@ function Likes() {
             {
                 posts.map((p, i) => {
                     return (
-                        <PostCard
-                            key={p.id}
-                            data={p}
-                            showFollowButton={false}
-                            mode={!!user && user.id == p.authorId ? 'own' : 'feed'}
-                            onDelete={() => {
-                                setPostToDelete(p);
-                                setIsOverlayOpened(true);
-                                setOpenedModal('delete');
-                            }}/>
+                        <div
+                            ref={i === posts.length - 3 ? loadingRef : null}>
+                            <PostCard
+                                key={p.id}
+                                data={p}
+                                showFollowButton={false}
+                                mode={!!user && user.id == p.authorId ? 'own' : 'feed'}
+                                onDelete={() => {
+                                    setPostToDelete(p);
+                                    setIsOverlayOpened(true);
+                                    setOpenedModal('delete');
+                                }}/>
+                        </div>
                     )
                 })
             }
             <div
-                ref={loadingRef}
                 className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
                 <div className='circle'></div>
             </div>

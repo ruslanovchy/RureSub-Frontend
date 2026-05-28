@@ -136,7 +136,8 @@ const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, re
         length: () => editor.storage.characterCount.characters(),
         setContent: (content) => {
             editor.commands.setContent(content);
-        }
+        },
+        clearContent: () => editor.commands.clearContent(),
     }));
 
     return (

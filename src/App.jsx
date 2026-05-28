@@ -21,6 +21,7 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 import SecuritySettings from './Settings/Pages/SecuritySettings.jsx'
 import Create from './Create/Create.jsx'
 import Home from './Home/Home.jsx'
+import Post from './Post/Post.jsx'
 
 export let globalNavigate = null;
 
@@ -64,6 +65,7 @@ function App() {
 						<Route path='profile' element={<ProfileSettings/>}/>
 						<Route path='security' element={<SecuritySettings/>}/>
 					</Route>
+					<Route path='/post/:id' element={<Post/>}/>
 					<Route path='/create' element={<Create/>}/>
 				</Routes>
 

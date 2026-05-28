@@ -54,6 +54,11 @@ function Create() {
         setErrors(newErrors);
     }
 
+    function clear() {
+        setTitle('');
+        editorRef.current.clearContent();
+    }
+
     return (
         <div className="create-wrapper">
             <div className="create-container">
@@ -70,7 +75,7 @@ function Create() {
                         propName={'title'}/>
                     <LengthIndicator
                         text={title}
-                        maxLength={100}/>
+                        maxLength={400}/>
                 </div>
                 <TipTap 
                     ref={editorRef}
@@ -96,7 +101,8 @@ function Create() {
                         className="primary-button"
                         onClick={submit}>Post</button>
                     <button 
-                        className="secondary-button">Clear</button>
+                        className="secondary-button"
+                        onClick={clear}>Clear</button>
                 </div>
             </div>
         </div>

@@ -78,15 +78,49 @@ function PostCard({
         });
     }
 
-    return (
-        <div className="post-container">
+    const containerRef = useRef(null);
+    const footerLeftRef = useRef(null);
+    const headerLeftRef = useRef(null);
+    const followButtonRef = useRef(null);
+    const contentRef = useRef(null);
 
-            <div className="post-header">
+    const refs = [
+        footerLeftRef,
+        headerLeftRef,
+        addActionsButtonRef,
+        addActionsRef,
+        followButtonRef,
+        contentRef
+    ]
+
+    return (
+        <div 
+            className="post-container"
+            ref={containerRef}
+            onClick={(e) => {
+                let doNavigate = true;
+
+                for (let i = 0; i < refs.length; i ++) {
+                    const r = refs[i];
+                    if (r.current && (e.target == r.current || r.current.contains(e.target))){
+                        doNavigate = false;
+                        break;
+                    }
+                }
+                
+                if (doNavigate) {
+                    navigate(`/post/${data.id}`);
+                }
+            }}>
+
+            <div 
+                className="post-header">
                 <div 
                     className="left"
                     onClick={(e) => {
                         navigate(`/user/${data.author.userName}`)
-                    }}>
+                    }}
+                    ref={headerLeftRef}>
                     <img src={data.author.avatarUrl} alt="" />
 
                     <div className="names">
@@ -103,7 +137,9 @@ function PostCard({
                 <div className="right">
                     {
                         showFollowButton &&
-                        <button className="secondary-button">
+                        <button 
+                            className="secondary-button"
+                            ref={followButtonRef}>
                             Follow
                         </button> 
                     }
@@ -125,14 +161,21 @@ function PostCard({
 
             <div className="body">
                 <h2>{data.title}</h2>
-                <TipTap
-                    editable={false}
-                    ref={tipTapRef}
-                    content={data.content}/>
+                <div 
+                    className="content"
+                    ref={contentRef}>
+                    <TipTap
+                        editable={false}
+                        ref={tipTapRef}
+                        content={data.content}/>
+                </div>
             </div>
 
-            <div className="footer">
-                <div className="left">
+            <div 
+                className="footer">
+                <div 
+                    className="left"
+                    ref={footerLeftRef}>
                     <div className="like-group group"
                         onClick={like}>
                         <img src={
@@ -140,12 +183,14 @@ function PostCard({
                             icons.heartFilledIcon : icons.heartIcon} alt="" />
                         <span>{toIndicatorFormat(likesCount)}</span>
                     </div>
-                    <div className="like-group group">
+                    <div 
+                        className="comments-group group">
                         <img src={icons.commentsIcon} alt="" />
                         <span>{toIndicatorFormat(data.commentsCount)}</span>
                     </div>
                 </div>
-                <div className="right"> 
+                <div 
+                    className="right"> 
                 </div>
             </div>
 
