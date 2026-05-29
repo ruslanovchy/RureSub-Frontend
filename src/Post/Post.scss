@@ -2,11 +2,119 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 20px;
 }
 
 .post-page-container {
     height: 100px;
-    background-color: red;
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .post-page-header {
+        height: 50px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 0 0 10px 0;
+
+        .left {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            cursor: pointer;
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .names {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .display-name {
+                font-size: 1rem;
+                color: var(--text-color);
+                margin: 0;
+            }
+
+            .user-name {
+                font-size: 0.75rem;
+                color: var(--text-color5);
+                margin: 0;
+            }
+            
+            .date {
+                display: flex;
+                align-items: start;
+                height: 100%;
+                padding: 5px 0 0 0;
+                gap: 6px;
+                color: var(--text-color6);
+                font-size: 0.82rem;
+            }
+        }
+        
+        .right {
+            display: flex;
+            justify-content: end;
+            gap: 8px;
+
+            .secondary-button {
+                height: 36px;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+
+            .add-actions-button {
+                height: 36px;
+                padding: 0 10px 1px 10px;
+                letter-spacing: 1px;
+            }
+        }
+    }
+
+    .post-page-content {
+        h2 {
+            margin: 0 6px 14px 6px;
+        }
+    }
+    
+    .post-page-footer {
+        display: grid;
+        grid-template-columns: auto 1fr;
+
+        .left {
+            height: 26px;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            gap: 10px;
+            padding: 0 0 0 6px; 
+
+            .group {
+                display: flex;
+                align-items: center;
+                height: 24px;
+                gap: 6px;
+                cursor: pointer;
+
+                span {
+                    color: var(--text-color);
+                    font-weight: 800;
+
+                }
+            }
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
 }

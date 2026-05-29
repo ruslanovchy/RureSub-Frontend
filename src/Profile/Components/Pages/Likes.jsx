@@ -28,6 +28,8 @@ function Likes() {
     const user = useAuthStore(store => store.user);
     const queryClient = useQueryClient();
 
+    const queryKey = ['likes', profileContext?.profileData.userId];
+
     const {
         data,
         fetchNextPage,
@@ -37,7 +39,7 @@ function Likes() {
         error,
         refetch
     } = useInfiniteQuery({
-        queryKey: ['likes', profileContext?.profileData.userId],
+        queryKey,
         queryFn: fetchPosts,
         initialPageParam: { userId: profileContext?.profileData?.userId, page: 1 },
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
@@ -82,7 +84,7 @@ function Likes() {
             setOpenedModal('');
             
             queryClient.setQueryData(
-                ['likes', profileContext?.profileData.userId],
+                queryKey,
                 (oldData) => {
                     if (!oldData) return oldData;
 
@@ -123,12 +125,13 @@ function Likes() {
                 posts.map((p, i) => {
                     return (
                         <div
-                            ref={i === posts.length - 3 ? loadingRef : null}>
+                            ref={i < 3 ? i == 0 ? loadingRef : null :i === posts.length - 3 ? loadingRef : null}>
                             <PostCard
                                 key={p.id}
                                 data={p}
                                 showFollowButton={false}
                                 mode={!!user && user.id == p.authorId ? 'own' : 'feed'}
+                                queryKey={queryKey}
                                 onDelete={() => {
                                     setPostToDelete(p);
                                     setIsOverlayOpened(true);

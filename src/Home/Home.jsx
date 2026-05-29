@@ -26,7 +26,7 @@ function Home() {
         hasNextPage,
         isFetchingNextPage,
         isLoading,
-        error, 
+        error,
     } = useInfiniteQuery({
         queryKey: ['feed'],
         queryFn: getFeed,
@@ -63,9 +63,9 @@ function Home() {
         }
     }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-    useEffect(() => {
-        queryClient.resetQueries({ queryKey: ['feed'] })
-    }, [])
+    // useEffect(() => {
+    //     queryClient.resetQueries({ queryKey: ['feed'] })
+    // }, [])
 
     if (error) return;
     if (isLoading) return;
@@ -80,10 +80,11 @@ function Home() {
                     posts.map((p, i) => {
                         return (
                             <div
-                                ref={i === posts.length - 3 ? loadingRef : null}>
+                                ref={i < 3 ? i == 0 ? loadingRef : null : i === posts.length - 3 ? loadingRef : null}>
                                 <PostCard
                                     key={p.id}
-                                    data={p}/>
+                                    data={p}
+                                    queryKey={['feed']}/>
                             </div>
                         )
                     })

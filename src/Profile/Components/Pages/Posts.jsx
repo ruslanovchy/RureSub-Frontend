@@ -26,6 +26,8 @@ function Posts() {
     const profileContext = useContext(ProfileContext);
     const queryClient = useQueryClient();
 
+    const queryKey = ['profilePosts', profileContext?.profileData.userId];
+
     const {
         data,
         fetchNextPage,
@@ -35,7 +37,7 @@ function Posts() {
         error,
         refetch
     } = useInfiniteQuery({
-        queryKey: ['myPosts', profileContext?.profileData.userId],
+        queryKey,
         queryFn: fetchPosts,
         initialPageParam: { userId: profileContext?.profileData?.userId },
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
@@ -81,7 +83,7 @@ function Posts() {
             setOpenedModal('');
             
             queryClient.setQueryData(
-                ['myPosts', profileContext?.profileData.userId],
+                queryKey,
                 (oldData) => {
                     if (!oldData) return oldData;
 
@@ -122,12 +124,13 @@ function Posts() {
                 posts.map((p, i) => {
                     return (
                         <div
-                            ref={i === posts.length - 3 ? loadingRef : null}>
+                            ref={i < 3 ? i == 0 ? loadingRef : null :i === posts.length - 3 ? loadingRef : null}>
                             <PostCard
                                 key={p.id}
                                 data={p}
                                 showFollowButton={false}
                                 mode={profileContext.isProfileOwner ? 'own' : 'feed'}
+                                queryKey={queryKey}
                                 onDelete={() => {
                                     setPostToDelete(p);
                                     setIsOverlayOpened(true);

@@ -6,12 +6,15 @@ import { icons } from "../assets/icons/icons";
 import { api } from "../api";
 import { toPostDateFormat } from "../utils/dateFormat";
 import { toIndicatorFormat } from "../utils/indicatorFormat";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../App";
 
 
 function PostCard({ 
     data, 
     showFollowButton = true, 
     mode = 'feed',
+    queryKey = 'feed',
     onDelete,
     onLike }) {
 
@@ -58,24 +61,103 @@ function PostCard({
         }
     }
 
+    const likeMutation = useMutation({
+        mutationFn: async ({ postId, isLiked }) => {
+            const url = `posts/likes/like?postId=${postId}`;
+
+            if (isLiked) {
+                return await api.delete(url);
+            }
+
+            return await api.post(url);
+        },
+        onMutate: async ({ postId }) => {
+            await queryClient.cancelQueries({ queryKey: queryKey });
+
+            const previousFeed = queryClient.getQueryData(queryKey);
+
+            queryClient.setQueryData(queryKey,
+                (oldData) => {
+                    if (!oldData) return oldData;
+
+                    return {
+                        ...oldData,
+                        pages: oldData.pages.map(page => 
+                            page.map(post => {
+                                if (post.id !== postId) {
+                                    return post;
+                                }
+
+                                const newIsLiked = !post.isLiked;
+
+                                return {
+                                    ...post,
+                                    isLiked: newIsLiked,
+                                    likesCount: post.isLiked 
+                                        ? post.likesCount - 1
+                                        : post.likesCount + 1
+                                }
+                            })
+                        )
+                    }
+                }
+            )
+
+            return { previousFeed }
+        },
+        onError: (err, variables, context) => {
+            queryClient.setQueryData(
+                queryKey,
+                context.previousFeed
+            )
+        }
+    })
+
     function like() {
-        const lastIsLiked = isLiked;
-        const lastLikesCount = likesCount;
+        likeMutation.mutate({
+            postId: data.id,
+            isLiked: data.isLiked
+        })
+        // const lastIsLiked = isLiked;
+        // const lastLikesCount = likesCount;
 
-        setIsLiked(!isLiked);
-        setLikesCount(lastIsLiked ? likesCount - 1 : likesCount + 1)
-        const url = `posts/likes/like?postId=${data.id}`;
-        const promise = lastIsLiked ? 
-            api.delete(url) :
-            api.post(url);
+        // const newIsLiked = !lastIsLiked;
 
-        promise.then(response => {
-            if (response !== 200) return;
-            onLike({ isLiked, postId: data.id });
-        }).catch(error => {
-            setIsLiked(lastIsLiked);
-            setLikesCount(lastLikesCount);
-        });
+        // setIsLiked(newIsLiked);
+        // setLikesCount(lastIsLiked ? likesCount - 1 : likesCount + 1)
+        // const url = `posts/likes/like?postId=${data.id}`;
+        // const promise = lastIsLiked ? 
+        //     api.delete(url) :
+        //     api.post(url);
+
+        // promise.then(response => {
+        //     if (response !== 200) return;
+        //     onLike({ isLiked: newIsLiked, postId: data.id });
+
+        //     queryClient.setQueryData(
+        //         ['feed'],
+        //         (oldData) => {
+        //             if (!oldData) return oldData;
+
+        //             return {
+        //                 ...oldData,
+        //                 pages: oldData.pages.map(page => 
+        //                     page.map(post => 
+        //                         post.id === data.id 
+        //                         ? {
+        //                             ...post,
+        //                             isLiked: newIsLiked,
+        //                         }
+        //                         : post
+        //                     )
+        //                 )
+        //             }
+        //         }
+        //     )
+        // }).catch(error => {
+        //     setIsLiked(lastIsLiked);
+        //     setLikesCount(lastLikesCount);
+        // });
     }
 
     const containerRef = useRef(null);
@@ -159,10 +241,9 @@ function PostCard({
                 </div>
             </div>
 
-            <div className="body">
+            <div className="content">
                 <h2>{data.title}</h2>
-                <div 
-                    className="content"
+                <div
                     ref={contentRef}>
                     <TipTap
                         editable={false}
@@ -179,9 +260,9 @@ function PostCard({
                     <div className="like-group group"
                         onClick={like}>
                         <img src={
-                            isLiked ?
+                            data.isLiked ?
                             icons.heartFilledIcon : icons.heartIcon} alt="" />
-                        <span>{toIndicatorFormat(likesCount)}</span>
+                        <span>{toIndicatorFormat(data.likesCount)}</span>
                     </div>
                     <div 
                         className="comments-group group">
