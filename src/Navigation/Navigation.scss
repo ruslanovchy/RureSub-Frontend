@@ -11,6 +11,7 @@
     padding: 0 0 120px 0;
     transition: 0.2s ease;
     background-color: var(--bg);
+    z-index: 1000;
 
     .elements {
         display: flex;
@@ -27,7 +28,6 @@
 
         &.opened {
             transform: translateX(0);
-            z-index: 1000;
         }
     }
 }

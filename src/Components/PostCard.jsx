@@ -8,6 +8,7 @@ import { toPostDateFormat } from "../utils/dateFormat";
 import { toIndicatorFormat } from "../utils/indicatorFormat";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../App";
+import { assets } from "../assets/assets";
 
 
 function PostCard({ 
@@ -20,6 +21,7 @@ function PostCard({
 
     const navigate = useNavigate();
     const tipTapRef = useRef();
+    const [avatarSrc, setAvatarSrc] = useState(data.author.avatarUrl);
     const [addActionsOpened, setAddActionsOpened] = useState(false);
     const addActionsRef = useRef(null);
     const addActionsButtonRef = useRef(null);
@@ -110,6 +112,9 @@ function PostCard({
                 queryKey,
                 context.previousFeed
             )
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries(queryKey);
         }
     })
 
@@ -118,46 +123,6 @@ function PostCard({
             postId: data.id,
             isLiked: data.isLiked
         })
-        // const lastIsLiked = isLiked;
-        // const lastLikesCount = likesCount;
-
-        // const newIsLiked = !lastIsLiked;
-
-        // setIsLiked(newIsLiked);
-        // setLikesCount(lastIsLiked ? likesCount - 1 : likesCount + 1)
-        // const url = `posts/likes/like?postId=${data.id}`;
-        // const promise = lastIsLiked ? 
-        //     api.delete(url) :
-        //     api.post(url);
-
-        // promise.then(response => {
-        //     if (response !== 200) return;
-        //     onLike({ isLiked: newIsLiked, postId: data.id });
-
-        //     queryClient.setQueryData(
-        //         ['feed'],
-        //         (oldData) => {
-        //             if (!oldData) return oldData;
-
-        //             return {
-        //                 ...oldData,
-        //                 pages: oldData.pages.map(page => 
-        //                     page.map(post => 
-        //                         post.id === data.id 
-        //                         ? {
-        //                             ...post,
-        //                             isLiked: newIsLiked,
-        //                         }
-        //                         : post
-        //                     )
-        //                 )
-        //             }
-        //         }
-        //     )
-        // }).catch(error => {
-        //     setIsLiked(lastIsLiked);
-        //     setLikesCount(lastLikesCount);
-        // });
     }
 
     const containerRef = useRef(null);
@@ -203,7 +168,8 @@ function PostCard({
                         navigate(`/user/${data.author.userName}`)
                     }}
                     ref={headerLeftRef}>
-                    <img src={data.author.avatarUrl} alt="" />
+                    <img src={avatarSrc}
+                        onError={() => setAvatarSrc(assets.userDefaultAvatar)} alt="" />
 
                     <div className="names">
                         <span className="display-name">{data.author.displayName}</span>

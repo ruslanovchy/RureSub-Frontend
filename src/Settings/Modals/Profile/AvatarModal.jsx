@@ -7,11 +7,11 @@ import { useSettingsStore } from '../../../stores/settingsStore';
 import { loginRegex } from '../../../validation/authValidation';
 import { api } from '../../../api';
 import { notifyPromise } from '../../../notification';
-import defaultAvatar from '../../../assets/user-default-avatar.png'
 import penIcon from '../../../assets/icons/pen.svg';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../../../utils/canvasUtils';
 import { useProfileStore } from '../../../stores/profileStore';
+import { assets } from '../../../assets/assets';
 
 function AvatarModal() {
     const setIsOpened = useSettingsOverlayStore(store => store.setIsOpened);
@@ -22,6 +22,8 @@ function AvatarModal() {
     const setProfileData = useProfileStore(store => store.setData);
     
     const inputRef = useRef(null);
+
+    const [avatarSrc, setAvatarSrc] = useState(profileData.avatarUrl);
 
     const [file, setFile] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -104,7 +106,7 @@ function AvatarModal() {
                 onChange={(e)=>{
                     if (e.target.files && e.target.files.length > 0) {
                         const reader = new FileReader();
-                        reader.addEventListener('load', () => setFile(reader.result));
+                        reader.addEventListener('load', () => { setFile(reader.result); setAvatarSrc(reader.result); });
                         reader.readAsDataURL(e.target.files[0]);
                     }
                 }}/>
@@ -112,7 +114,8 @@ function AvatarModal() {
             {!file ?
                 <div className="avatar-container">
                     <div className="image-group">
-                        <img src={profileData.avatarUrl ?? defaultAvatar} alt="" >
+                        <img src={avatarSrc}
+                            onError={() => { setAvatarSrc(assets.userDefaultAvatar); }} alt="" >
                         </img>
                         <div className="hover-overlay"
                             onClick={(e)=>{

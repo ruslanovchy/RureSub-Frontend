@@ -10,6 +10,7 @@ import { useNavigationStore } from '../stores/navigationStore';
 import { useAccountOverlayStore } from '../stores/accountOverlayStore';
 import { useNavigate } from 'react-router-dom';
 import { useProfileStore } from '../stores/profileStore';
+import { assets } from '../assets/assets';
 
 function Header({ overlayRef }) {
     const navigate = useNavigate();
@@ -41,6 +42,13 @@ function Header({ overlayRef }) {
 	const setIsAccountOverlayOpened = useAccountOverlayStore(store => store.setIsOpened);
 
     const profileData = useProfileStore(store => store.data);
+    const [avatarSrc, setAvatarSrc] = useState(assets.userDefaultAvatar);
+
+    useEffect(() => {
+        if (profileData && profileData.avatarUrl) {
+            setAvatarSrc(profileData.avatarUrl);
+        }
+    }, [profileData])
 
     useEffect(() => {
         const handleClick = (e) => {
@@ -87,9 +95,8 @@ function Header({ overlayRef }) {
                 <div className={`authorized-buttons ${openedHeaderButtons === 'authorized' ? 'opened' : ''}`}>
                     <button className="profile-button"
                         onClick={()=> {setIsAccountOverlayOpened(!isAccountOverlayOpened)}}>
-                        <img src={
-                                !profileData || !profileData.avatarUrl ? userDefaultAvatar : profileData.avatarUrl
-                            } alt="" />
+                        <img src={avatarSrc} 
+                            onError={() => {setAvatarSrc(assets.userDefaultAvatar)}} alt="" />
                     </button>
 
                 </div>

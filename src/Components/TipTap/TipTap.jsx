@@ -19,15 +19,24 @@ import Link from "@tiptap/extension-link";
 import { EditorState } from "@tiptap/pm/state";
 import LinkModal from "./Modals/LinkModal";
 import CharacterCount from "@tiptap/extension-character-count";
+import { Placeholder } from "@tiptap/extensions";
 
 export const TipTapContext = createContext();
 
-const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, ref) => {
+const lowlight = createLowlight(all);
+
+const TipTap = forwardRef((
+    { 
+        onChange, 
+        maxLength, 
+        editable = true, 
+        content,
+        placeholder = 'Enter text',
+        className,
+    }, ref) => {
     const [isOverlayOpened, setIsOverlayOpened] = useState(false);
     const [overlayOpenedModal, setOverlayOpenedModal] = useState('');
     const [enteredLink, setEnteredLink] = useState('');
-
-    const lowlight = createLowlight(all);
 
     const editor = useEditor({
          extensions: [
@@ -59,6 +68,9 @@ const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, re
             CharacterCount.configure({
                 limit: maxLength
             }),
+            Placeholder.configure({
+                placeholder
+            })
         ],
         content: '',
         onUpdate: ({ editor }) => {
@@ -66,6 +78,21 @@ const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, re
                 json: editor.getJSON(),
                 length: editor.storage.characterCount.characters()
             })
+
+            // const json = editor.getJSON();
+            // const nodes = json.content;
+
+            // if (nodes && nodes.length > 1) {
+            //     const lastNode = nodes[nodes.length - 1];
+            //     const secondToLastNode = nodes[nodes.length - 2];
+
+            //     if (lastNode.type === 'paragraph' && !lastNode.content) {
+            //         editor.commands.deleteRange({
+            //             from: editor.state.doc.content.size - 1,
+            //             to: editor.state.doc.content.size,
+            //         });
+            //     }
+            // }
         },
         editable: editable,
         content: content
@@ -79,8 +106,6 @@ const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, re
             return {
                 isEditable: editor.isEditable,
                 currentSelection: editor.state.selection,
-                currentContent: editor.getJSON(),
-                currentContentMarkdown: editor.getMarkdown(),
                 currentLink: editor.getAttributes('link'),
                 isBold: editor.isActive('bold'),
                 isItalic: editor.isActive('italic'),
@@ -118,7 +143,7 @@ const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, re
         setOverlayOpenedModal('link');
     }
 
-    const providerValue = useMemo(() => ({editor, editorState, onLink}), [editor])
+    const providerValue = useMemo(() => ({editor, editorState, onLink}), [editor, editorState, onLink])
 
     const textareaWrapperRef = useRef(null);
     const overlayRef = useRef(null);
@@ -141,7 +166,7 @@ const TipTap = forwardRef(({ onChange, maxLength, editable = true, content }, re
     }));
 
     return (
-        <div className='tiptap-container'>
+        <div className={`tiptap-container ${className}`}>
             <TipTapContext.Provider value={tipTapContextValue}>
             <EditorContext.Provider value={providerValue}>
                 <div 

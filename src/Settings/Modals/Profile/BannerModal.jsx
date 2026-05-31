@@ -7,11 +7,11 @@ import { useSettingsStore } from '../../../stores/settingsStore';
 import { loginRegex } from '../../../validation/authValidation';
 import { api } from '../../../api';
 import { notifyPromise } from '../../../notification';
-import defaultBanner from '../../../assets/user-default-banner.jpg'
 import penIcon from '../../../assets/icons/pen.svg';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../../../utils/canvasUtils';
 import { useProfileStore } from '../../../stores/profileStore';
+import { assets } from '../../../assets/assets';
 
 function BannerModal() {
     const setIsOpened = useSettingsOverlayStore(store => store.setIsOpened);
@@ -75,6 +75,8 @@ function BannerModal() {
         setCroppedAreaPixels(croppedAreaPixels);
     }, [])
 
+    const [bannerSrc, setBannerSrc] = useState(profileData.bannerUrl);
+
     return (
         <div className="modal-card banner-modal">
             <button className="close-button"
@@ -95,14 +97,15 @@ function BannerModal() {
                     if (e.target.files && e.target.files.length > 0) {
                         setRawFile(e.target.files[0]);
                         const reader = new FileReader();
-                        reader.addEventListener('load', () => setFile(reader.result));
+                        reader.addEventListener('load', () => { setFile(reader.result); setBannerSrc(reader.result); });
                         reader.readAsDataURL(e.target.files[0]);
                     }
                 }}/>
             
             <div className="banner-container">
                 <div className="image-group">
-                    <img src={file ?? profileData.bannerUrl ?? defaultBanner} alt="" >
+                    <img src={bannerSrc} alt="" 
+                        onError={() => setBannerSrc(assets.userDefaultBanner)}>
                     </img>
                     <div className="hover-overlay"
                         onClick={(e)=>{

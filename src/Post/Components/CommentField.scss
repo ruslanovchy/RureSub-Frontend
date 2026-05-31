@@ -1,0 +1,25 @@
+
+.comment-field {
+    .tiptap-container {
+        background: var(--text-input-bg);
+        border-radius: 12px;
+        border: none;
+        gap: 0px;
+        display: flex;
+        flex-direction: column-reverse;
+
+        .fixed-buttons {
+            padding: 4px 4px 2px 4px;
+        }
+
+        .tiptap-textarea-wrapper {
+            padding: 14px 10px 6px 10px;
+        }
+
+    }
+    .indicator-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 8px 0 0 0;
+    }
+}

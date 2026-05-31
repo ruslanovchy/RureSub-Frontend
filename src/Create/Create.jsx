@@ -25,7 +25,8 @@ function Create() {
             newErrors.title = 'Invalid title!';
         }
 
-        const contentJson = editorRef.current?.getJSON();
+        const contentJson = editorData.json;
+        const content = contentJson.content;
 
         if (!contentJson || contentJson.content?.length === 0 || editorData.length > bodyTextMaxLength) {
             newErrors.content = 'Invalid body text!';
@@ -34,10 +35,23 @@ function Create() {
         if (Object.keys(newErrors).length === 0) {
             const formData = new FormData();
 
-            const promise = api.post('posts/', {
-                title,
-                content: contentJson
-            });
+            let start = content.length;
+
+            for (let i = content.length - 1; i >= 0; i--) {
+                if (!content[i].content) {
+                    start = i;
+                }
+                else {
+                    break;
+                }
+            }
+
+            contentJson.content = content.filter((_, index) => index < start);
+            
+            formData.append("title", title);
+            formData.append("content", JSON.stringify(contentJson))
+
+            const promise = api.post('posts/', formData);
 
             notifyPromise(promise, {
                 loading: 'Loading...',
