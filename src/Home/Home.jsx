@@ -46,7 +46,6 @@ function Home() {
     })
 
     const observerRef = useRef(null);
-    const observerPostRef = useRef(null);
 
     const loadingRef = useCallback((node) => {
         if (observerRef.current) observerRef.current.disconnect();

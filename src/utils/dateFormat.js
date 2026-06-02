@@ -4,9 +4,14 @@ const yearFormatter = new Intl.DateTimeFormat('en-US', {
     year: 'numeric'
 });
 
+const oneDayInMs = 86400000;
+const oneHourInMs = 3600000;
+const oneMinuteInMs = 60000;
+const oneSecondInMs = 1000;
+
 export function toPostDateFormat(date) {
     const currentDate = new Date();
-    
+
     const currentYear = currentDate.getFullYear();
 
     const year = currentYear - date.getFullYear();
@@ -15,37 +20,39 @@ export function toPostDateFormat(date) {
         return yearFormatter.format(date);
     }
 
+    const diffInMs = currentDate - date;
+    
+
     const currentMonth = currentDate.getMonth();
     const month = currentMonth - date.getMonth();
 
-    if (month !== 0) {
+    const day = diffInMs / oneDayInMs;
+
+    if (month !== 0 && day > 28) {
         return `${month} month ago`;
     }
 
-    const currentDay = currentDate.getDate();
-    const day = currentDay - date.getDate();
-    if (day !== 0) {
-        return `${day} days ago`;
+    if (day >= 1) {
+        return `${parseInt(day)} days ago`;
     }
     
-    const currentHours = currentDate.getHours();
-    const hours = currentHours - date.getHours();
+    const hours = diffInMs / oneHourInMs;
 
-    if (hours !== 0) {
-        return `${hours} ${hours == 1 ? 'hour' : 'hours'} ago`;
+    if (hours >= 1) {
+        return `${parseInt(hours)} ${hours == 1 ? 'hour' : 'hours'} ago`;
     }
 
-    const currentMinutes = currentDate.getMinutes();
-    const minutes = currentMinutes - date.getMinutes();
+    const minutes = diffInMs / oneMinuteInMs;
 
-    if (minutes !== 0) {
-        return `${minutes} ${minutes == 1 ? 'minute' : 'minutes'} ago`;
+    if (minutes >= 1) {
+        return `${parseInt(minutes)} ${minutes == 1 ? 'minute' : 'minutes'} ago`;
     }
 
-    const currentSeconds = currentDate.getSeconds();
-    const seconds = currentSeconds - date.getSeconds();
+    const seconds = diffInMs / oneSecondInMs;
 
-    if (seconds !== 0) {
-        return `${seconds} ${seconds == 1 ? 'second' : 'seconds'} ago`;
+    if (seconds >= 1) {
+        return `${parseInt(seconds)} ${seconds == 1 ? 'second' : 'seconds'} ago`;
     }
+
+    return 'now'
 }

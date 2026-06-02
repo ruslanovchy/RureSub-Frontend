@@ -7,12 +7,14 @@ import { useAuthStore } from '../stores/authStore';
 import { useEffect, useRef } from 'react';
 import { useAccountOverlayStore } from '../stores/accountOverlayStore';
 import { useProfileStore } from '../stores/profileStore';
+import { useOverlayStore } from '../Overlay/overlayStore';
 
 function AccountOverlay({ ref }) {
     const navigate = useNavigate();
     const logoutZustand = useAuthStore(store => store.logout);
     const user = useAuthStore(store => store.user);
     const setProfileData = useProfileStore(store => store.setData);
+    const setOverlayData = useOverlayStore(store => store.setData);
 
 	function logout() {
 		const promise = api.post('auth/logout');
@@ -43,7 +45,32 @@ function AccountOverlay({ ref }) {
             <OverlayButton 
                 icon={logoutIcon} 
                 text='Logout'
-                onClick={()=>{ logout(); setIsOpened(false); }}/>
+                onClick={()=> {
+                    setOverlayData({
+                        title: 'Confirmation',
+                        textContent: 'Are you sure want to logout?',
+                        modal: {
+                            className: 'logout-card'
+                        },
+                        buttons: [
+                            {
+                                className: 'primary-button',
+                                textContent: 'Cancel',
+                                onClick: () => {
+                                    setOverlayData(null);
+                                }
+                            },
+                            {
+                                className: 'secondary-button',
+                                textContent: 'Sure',
+                                onClick: () => {
+                                    logout(); setIsOpened(false);
+                                    setOverlayData(null);
+                                }
+                            }
+                        ]
+                    })
+                }}/>
         </div>
     )
 }

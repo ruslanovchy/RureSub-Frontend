@@ -1,0 +1,186 @@
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    position: relative;
+
+    .comment-header {
+        height: 40px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+
+        .left {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            cursor: pointer;
+
+            img {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+            }
+
+            .display-name {
+                font-size: 1rem;
+                color: var(--text-color);
+                margin: 0 0 0 6px;
+            }
+
+            .reply-display-name {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                padding: 0px 0 0 0;
+                gap: 6px;
+                color: var(--text-color5);
+                font-size: 0.9rem;
+            }
+
+            .date {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                padding: 0px 0 0 0;
+                gap: 6px;
+                color: var(--text-color6);
+                font-size: 0.82rem;
+            }
+        }
+        
+        .right {
+            display: flex;
+            justify-content: end;
+            gap: 8px;
+
+            .secondary-button {
+                height: 36px;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+
+            .add-actions-button {
+                height: 36px;
+                padding: 0 10px 1px 10px;
+                letter-spacing: 1px;
+            }
+        }
+    }
+
+    .comment-body {
+        margin: 0 0 8px 0;
+        .tiptap-container .tiptap-textarea-wrapper {
+            background-color: transparent;
+            padding: 0px 0 2px 50px;
+
+        }
+    }
+
+    .comment-footer {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        padding: 0 0 0 46px;
+
+        .left {
+            height: 40px;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            gap: 10px;
+            padding: 0 0 0 6px; 
+
+            .group {
+                display: flex;
+                align-items: center;
+                height: 32px;
+                gap: 6px;
+                cursor: pointer;
+
+                span {
+                    color: var(--text-color4);
+                    font-weight: 800;
+                    font-size: 0.9rem;
+                }
+            }
+
+            .reply-group {
+                border-radius: 10px;
+                padding: 6px 6px;
+                transition: all 0.1s ease;
+                &:hover {
+                    background-color: var(--bg3);
+                }
+            }
+
+            img {
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+    .add-actions-container {
+        width: 100%;
+        max-width: 180px;
+        background-color: var(--bg4);
+        border-radius: 12px;
+        position: absolute;
+        top: 48px;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 6px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+        transform: translateY(-4px) scale(0.94);
+
+        &.opened {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .add-action-button {
+            text-align: start;
+            font-size: 0.96rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 0px 0;
+
+            img {
+                height: 24px;
+                width: 24px;
+            }
+
+            span {
+                padding: 0px 0 0 0;
+            }
+        }
+    }
+
+    .reply-container {
+        margin: 14px 0 0 0;
+        padding: 0 0 0 50px;
+        
+        .buttons {
+            display: flex;
+            flex-direction: row-reverse;
+            margin: 10px 0 0 0;
+            gap: 10px;
+            overflow: hidden;
+        }
+    }
+
+    .replies-container {
+        padding: 10px 0 0 50px;
+    }
+}
+
+.delete-comment-modal {
+    width: 100%;
+    max-width: 300px;
+    min-width: 0px;
+}

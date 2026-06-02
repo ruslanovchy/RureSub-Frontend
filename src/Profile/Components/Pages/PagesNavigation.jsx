@@ -7,7 +7,7 @@ function PagesNavigation({ pages, openedPage, setOpenedPage }) {
                 pages.map((p, i) => {
                     return (
                         <p 
-                            key={i}
+                            key={p}
                             className={`navigation-button ${openedPage == p ? 'selected' : ''}`}
                             onClick={(e) => {
                                 setOpenedPage(p);

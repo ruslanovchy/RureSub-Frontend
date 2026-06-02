@@ -22,6 +22,7 @@ import SecuritySettings from './Settings/Pages/SecuritySettings.jsx'
 import Create from './Create/Create.jsx'
 import Home from './Home/Home.jsx'
 import Post from './Post/Post.jsx'
+import Overlay from './Overlay/Overlay.jsx'
 
 export let globalNavigate = null;
 
@@ -50,6 +51,7 @@ function App() {
 			<LoadingBar/>
 
 			<Header overlayRef={accountOverlayRef}/>
+			<Overlay/>
 
 			<AuthOverlay/>
 

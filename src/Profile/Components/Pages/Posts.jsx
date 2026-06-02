@@ -9,6 +9,7 @@ import { ProfileContext } from '../../Profile';
 import { notifyPromise, notifySuccess } from '../../../notification';
 import { icons } from '../../../assets/icons/icons';
 import { resetQuery } from '../../../App';
+import { useOverlayStore } from '../../../Overlay/overlayStore';
 
 async function fetchPosts({ pageParam }) {
     let url = `posts/user?id=${pageParam.userId}`;
@@ -25,6 +26,7 @@ async function fetchPosts({ pageParam }) {
 function Posts() {
     const profileContext = useContext(ProfileContext);
     const queryClient = useQueryClient();
+    const setOverlayData = useOverlayStore(store => store.setData);
 
     const queryKey = ['profilePosts', profileContext?.profileData.userId];
 
@@ -58,13 +60,12 @@ function Posts() {
 
     const [isOverlayOpened, setIsOverlayOpened] = useState(false);
     const [openedModal, setOpenedModal] = useState('');
-    const [postToDelete, setPostToDelete] = useState(null);
     const overlayRef = useRef(null);
 
     const posts = 
         data?.pages.flatMap(page => page) ?? [];
 
-    function submitDelete() {
+    function submitDelete(postToDelete) {
         if (!postToDelete) {
             return;
         }
@@ -124,17 +125,35 @@ function Posts() {
                 posts.map((p, i) => {
                     return (
                         <div
+                            key={p.id}
                             ref={i < 3 ? i == 0 ? loadingRef : null :i === posts.length - 3 ? loadingRef : null}>
                             <PostCard
-                                key={p.id}
                                 data={p}
                                 showFollowButton={false}
                                 mode={profileContext.isProfileOwner ? 'own' : 'feed'}
                                 queryKey={queryKey}
                                 onDelete={() => {
-                                    setPostToDelete(p);
-                                    setIsOverlayOpened(true);
-                                    setOpenedModal('delete');
+                                    setOverlayData({
+                                        title: 'Confirmation',
+                                        textContent: 'Are you sure want to delete post?',
+                                        modal: {
+                                            className: 'delete-card'
+                                        },
+                                        buttons: [
+                                            {
+                                                className: 'secondary-button',
+                                                textContent: 'Cancel',
+                                                onClick: () => {
+                                                    setOverlayData(null);
+                                                }
+                                            },
+                                            {
+                                                className: 'primary-button',
+                                                textContent: 'Sure',
+                                                onClick: () => { submitDelete(p); setOverlayData(null); }
+                                            },
+                                        ]
+                                    })
                                 }}/>
                         </div>
                     )
@@ -143,46 +162,7 @@ function Posts() {
             <div
                 className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
                 <div className='circle'></div>
-            </div>
-
-            <div 
-                className={`overlay ${isOverlayOpened ? 'opened' : ''}`}
-                onClick={(e) => {
-                    if (e.target === overlayRef.current) {
-                        setIsOverlayOpened(false);
-                    }
-                }}
-                ref={overlayRef}>
-                {
-                    openedModal == 'delete' ?
-                    <div className="modal-card delete-card">
-                        <button className="close-button"
-                            onClick={()=>{
-                                setIsOverlayOpened(false);
-                            }}>
-                            <img src={icons.crossIcon} alt="" />
-                        </button>
-                        <h3>Confirmation</h3>
-                        <p>Are you sure want to delete post?</p>
-                        <div className="buttons">
-                            <button 
-                                className="secondary-button"
-                                onClick={()=>{
-                                    setIsOverlayOpened(false);
-                                }}>
-                                Cancel
-                            </button>
-                            <button 
-                                className="primary-button"
-                                onClick={submitDelete}>
-                                Delete
-                            </button>
-                        </div>
-                    </div> :
-                    <></>
-                }
-            </div>
-            
+            </div>            
         </div>
     )
 }
