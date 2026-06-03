@@ -14,6 +14,7 @@ import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../App";
 import { useProfileStore } from "../../stores/profileStore";
 import { useOverlayStore } from "../../Overlay/overlayStore";
+import { useNavigate } from "react-router-dom";
 
 async function fetchReplies({ pageParam }) {
     let url = `posts/comments?postId=${pageParam.postId}&rootCommentId=${pageParam.rootCommentId}`
@@ -50,6 +51,7 @@ const Comment = forwardRef((
     const addActionsButtonRef = useRef(null);
     const addActionsRef = useRef(null);
     const [addActionsOpened, setAddActionsOpened] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleClick = (e) => {
@@ -117,9 +119,6 @@ const Comment = forwardRef((
                 rootQueryKey,
                 context.previousData
             )
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries(rootQueryKey);
         }
     })
 
@@ -414,7 +413,7 @@ const Comment = forwardRef((
                                 setShowReplies(!showReplies);
                             }}>
                             <span>
-                                { showReplies ? `▲ Hide replies (${data.repliesCount})` : `▼ Show replies (${data.repliesCount})`}
+                                { showReplies ? `▲ Hide replies (${toIndicatorFormat(data.repliesCount)})` : `▼ Show replies (${toIndicatorFormat(data.repliesCount)})`}
                             </span>
                         </div>
                     }
@@ -458,6 +457,12 @@ const Comment = forwardRef((
                                         rootQueryKey={repliesQueryKey}/>
                                 )
                             })
+                        }
+                        {
+                            hasNextPage &&
+                            <span
+                                className="load-more"
+                                onClick={() => fetchNextPage() }>▼ Load more</span>
                         }
                 </div>
             }

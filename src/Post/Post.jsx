@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import './Post.scss'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { toPostDateFormat } from '../utils/dateFormat';
 import TipTap from '../Components/TipTap/TipTap';
@@ -41,6 +41,7 @@ function Post() {
     const commentsQueryKey = ['comments', pathParam.id]
     const feedQueryKey = ['feed']
     const [replyingCommentId, setReplyingCommentId] = useState('');
+    const navigate = useNavigate();
 
     //#region queries
 
@@ -296,7 +297,10 @@ function Post() {
             <div className="post-page-container">
 
                 <div className="post-page-header">
-                    <div className="left">
+                    <div className="left"
+                        onClick={(e) => {
+                            navigate(`/user/${data.author.userName}`)
+                        }}>
                         <img src={data.author.avatarUrl} alt="" />
                         <div className="names">
                             <span className='display-name'>{data.author.displayName}</span>
@@ -339,7 +343,7 @@ function Post() {
                     </div>
                 </div>
 
-                <h2>Comments</h2>
+                <h2>Comments {toIndicatorFormat(data.commentsCount)}</h2>
 
                 <div className="comment-textarea-container">
                     <CommentField

@@ -5,13 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true,
     allowedHosts: ['ruresub.loca.lt'], 
-    
-    hmr: {
-      host: 'ruresub.loca.lt',
-      protocol: 'wss',         
-      clientPort: 443          
-    }
   }
 })

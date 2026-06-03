@@ -112,9 +112,6 @@ function PostCard({
                 queryKey,
                 context.previousFeed
             )
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries(queryKey);
         }
     })
 
@@ -126,25 +123,27 @@ function PostCard({
     }
 
     const containerRef = useRef(null);
-    const footerLeftRef = useRef(null);
+    const titleRef = useRef(null);
     const headerLeftRef = useRef(null);
     const followButtonRef = useRef(null);
     const contentRef = useRef(null);
+    const likesRef = useRef(null);
 
     const refs = [
-        footerLeftRef,
         headerLeftRef,
         addActionsButtonRef,
         addActionsRef,
         followButtonRef,
-        contentRef
+        titleRef,
+        contentRef,
+        likesRef
     ]
 
     return (
         <div 
             className="post-container"
             ref={containerRef}
-            onClick={(e) => {
+            onMouseUp={(e) => {
                 let doNavigate = true;
 
                 for (let i = 0; i < refs.length; i ++) {
@@ -208,7 +207,10 @@ function PostCard({
             </div>
 
             <div className="content">
-                <h2>{data.title}</h2>
+                <h2
+                    ref={titleRef}>
+                    {data.title}
+                </h2>
                 <div
                     ref={contentRef}>
                     <TipTap
@@ -221,10 +223,10 @@ function PostCard({
             <div 
                 className="footer">
                 <div 
-                    className="left"
-                    ref={footerLeftRef}>
+                    className="left">
                     <div className="like-group group"
-                        onClick={like}>
+                        onClick={like}
+                        ref={likesRef}>
                         <img src={
                             data.isLiked ?
                             icons.heartFilledIcon : icons.heartIcon} alt="" />

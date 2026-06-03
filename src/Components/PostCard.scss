@@ -11,7 +11,7 @@
     .post-header {
         height: 50px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: auto 1fr;
 
         .left {
             display: flex;
@@ -121,7 +121,8 @@
 
     .content {
         h2 {
-            margin: 0 6px 8px 6px;
+            padding: 0 6px 8px 6px;
+            margin: 0;
         }
     }
 
@@ -156,5 +157,9 @@
                 height: 24px;
             }
         }
+    }
+
+    .tiptap-container {
+        max-height: none;
     }
 }
