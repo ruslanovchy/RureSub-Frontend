@@ -1,0 +1,180 @@
+.media-viewer-wrapper {
+    --media-viewer-wrapper-height: 420px;
+    height: var(--media-viewer-wrapper-height);
+    background-color: var(--bg2);
+    border-radius: var(--card-radius);
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        .swiper-slide .slide-buttons {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    .swiper-wrapper {
+        height: var(--media-viewer-wrapper-height);
+    }
+
+    .swiper-slide {
+        width: 100% !important;
+        height: 100%;
+        border-radius: var(--card-radius);
+        overflow: hidden;
+
+        .media-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                max-width: 100%;
+                max-height: var(--media-viewer-wrapper-height);
+                display: block;
+                height: auto;
+                width: auto;
+                z-index: 10;
+            }
+            video {
+                width: 100%;
+                max-width: 1200px;
+                height: auto;
+            }
+        }
+
+        .background-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            .image-blur {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: blur(2rem);
+            }
+        }
+
+
+        .slide-buttons {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            z-index: 20;
+            top: 14px;
+            left: 14px;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s ease;
+
+            button {
+                padding: 4px 12px;
+                height: 34px;
+            }
+        }
+    }
+
+    .next-button, .prev-button {
+        position: absolute;
+        z-index: 20;
+        top: 46%;
+        width: 40px;
+        height: 40px;
+        background: rgba(0,0,0,0.5);
+        color: white;
+        border-radius: 50%;
+        outline: none;
+        border: none;
+        transition: all 0.1s ease;
+        cursor: pointer;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        &:disabled.swiper-button-disabled {
+            background: rgba(0,0,0,0.2);
+            color: rgba(255, 255, 255, 0.2);
+            cursor: auto;
+        }
+    }
+
+    .next-button {
+        right: 10px;
+        padding: 6px 6px 6px 8px;
+    }
+
+    .prev-button {
+        left: 10px;
+        padding: 6px 8px 6px 6px;
+    }
+
+    .swiper {
+        --swiper-pagination-bullet-inactive-color: #69598a;
+        --swiper-pagination-bullet-inactive-opacity: 0.4;
+        
+        --swiper-pagination-color: #9262f3;
+        
+        --swiper-pagination-bullet-size: 8px;
+        
+        --swiper-pagination-bullet-horizontal-gap: 0px;
+    }
+
+    .swiper-pagination-bullets.swiper-pagination-horizontal {
+        width: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10px;
+
+        padding: 6px 8px;
+        background: rgba(0,0,0,0.8);
+        border-radius: 14px;
+
+        display: flex;
+        align-items: center;
+        gap: 8px
+    }
+
+    .swiper-pagination-bullet {
+        width: 6px;
+        height: 6px;
+        transform: scale(1);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .swiper-pagination-bullet-active {
+        transform: scale(1.2);
+    }
+
+    @media (max-width: 800px) {
+        --media-viewer-wrapper-height: 260px;
+
+        .next-button, .prev-button {
+            width: 30px;
+            height: 30px;
+        }
+        .next-button {
+            right: 10px;
+            padding: 4px 4px 4px 6px;
+        }
+
+        .prev-button {
+            left: 10px;
+            padding: 4px 6px 4px 4px;
+        }
+    }
+}

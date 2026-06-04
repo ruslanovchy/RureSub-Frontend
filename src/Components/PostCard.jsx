@@ -9,6 +9,7 @@ import { toIndicatorFormat } from "../utils/indicatorFormat";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../App";
 import { assets } from "../assets/assets";
+import MediaViewer from "./MediaViewer/MediaViewer";
 
 
 function PostCard({ 
@@ -128,6 +129,7 @@ function PostCard({
     const followButtonRef = useRef(null);
     const contentRef = useRef(null);
     const likesRef = useRef(null);
+    const mediaViewerRef = useRef(null);
 
     const refs = [
         headerLeftRef,
@@ -136,9 +138,10 @@ function PostCard({
         followButtonRef,
         titleRef,
         contentRef,
-        likesRef
+        likesRef,
+        mediaViewerRef
     ]
-
+    
     return (
         <div 
             className="post-container"
@@ -211,12 +214,23 @@ function PostCard({
                     ref={titleRef}>
                     {data.title}
                 </h2>
+                {
+                    data.mediaFiles && data.mediaFiles.length > 0 &&
+                    <div
+                        ref={mediaViewerRef}>
+                        <MediaViewer
+                            mediaItems={data.mediaFiles}/>
+                    </div>
+                }
                 <div
                     ref={contentRef}>
-                    <TipTap
-                        editable={false}
-                        ref={tipTapRef}
-                        content={data.content}/>
+                    {
+                        data.content &&
+                        <TipTap
+                            editable={false}
+                            ref={tipTapRef}
+                            content={data.content}/>
+                    }
                 </div>
             </div>
 

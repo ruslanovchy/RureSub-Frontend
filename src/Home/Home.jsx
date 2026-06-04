@@ -88,6 +88,7 @@ function Home() {
                     className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
                     <div className='circle'></div>
                 </div>
+                <br />
             </div>
         </div>
     )

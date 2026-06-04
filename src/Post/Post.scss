@@ -80,6 +80,10 @@
     }
 
     .post-page-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
         h2 {
             margin: 0 6px 14px 6px;
         }
@@ -88,7 +92,7 @@
     .post-page-footer {
         display: grid;
         grid-template-columns: auto 1fr;
-        margin: 0 0 40px 0;
+        margin: 20px 0 40px 0;
 
         .left {
             height: 26px;

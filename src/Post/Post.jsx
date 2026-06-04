@@ -12,6 +12,7 @@ import CommentField from './Components/CommentField';
 import Comment from './Components/Comment';
 import { commentMaxLength } from '../validation/postValidation';
 import { notifyPromise } from '../notification';
+import MediaViewer from '../Components/MediaViewer/MediaViewer';
 
 export const PostContext = createContext();
 
@@ -42,6 +43,7 @@ function Post() {
     const feedQueryKey = ['feed']
     const [replyingCommentId, setReplyingCommentId] = useState('');
     const navigate = useNavigate();
+    const mediaViewerRef = useRef(null);
 
     //#region queries
 
@@ -317,9 +319,20 @@ function Post() {
 
                 <div className="post-page-content">
                     <h2>{data.title}</h2>
-                    <TipTap
-                        editable={false}
-                        content={data.content}/>
+                    {
+                        data.mediaFiles && data.mediaFiles.length > 0 &&
+                        <div
+                            ref={mediaViewerRef}>
+                            <MediaViewer
+                                mediaItems={data.mediaFiles}/>
+                        </div>
+                    }
+                    {
+                        data.content &&
+                        <TipTap
+                            editable={false}
+                            content={data.content}/>
+                    }
                 </div>
 
                 <div className="post-page-footer">
@@ -373,7 +386,7 @@ function Post() {
                         <div className='circle'></div>
                     </div>
                 </div>
-
+                <br />
             </div>
         </div>
         </PostContext.Provider>

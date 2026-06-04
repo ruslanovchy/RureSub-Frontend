@@ -77,6 +77,7 @@ function Profile() {
                             setOpenedPage={setOpenedPage}/>
                         {getCurrentPage()}
                         <div></div>
+                        <br />
                     </div>
                     <ProfileAbout/>
                 </div>
