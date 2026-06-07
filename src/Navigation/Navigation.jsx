@@ -51,7 +51,8 @@ function Navigation() {
                     <NavigationButton 
                         icon={plusIcon}
                         text='Create'
-                        navigateTo='/create'/>
+                        navigateTo='/create'
+                        checkAuthorize={true}/>
 
                     <NavigationButton 
                         icon={bellIcon}

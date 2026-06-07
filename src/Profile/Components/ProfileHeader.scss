@@ -18,78 +18,122 @@
 }
 
 .main-info {
+    display: grid;
+    grid-template-columns: minmax(0, auto) 1fr;
     position: absolute;
     top: 110px;
-    left: 30px;
-    display: flex;
-
-    .avatar {
-        .avatar-image {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            outline: 6px solid var(--bg);
-        }
-    }
-
-    .names {
-        margin: 42px 0 0 20px;
-
-        p {
-            margin: 0;
-        }
-
-        .display-name-p {
-            font-size: 1.8rem;
-            font-family: var(--tertiary-font);
-            font-weight: 600;
-            padding: 0;
-        }
-
-        .user-name-p {
-            font-size: 1rem;
-            color: var(--user-name-color);
-            padding: 0;
-        }
-
-    }
-
-    .additional-buttons {
-        margin: 48px 0 0 16px;
+    left: 0px;
+    padding: 0 30px 0 30px;
+    width: 100%;
+    .left {
         display: flex;
-        flex-direction: row;
-    }
 
-    .change-profile-button {
-        img {
-            width: 100%;
-            height: 100%;
+        .avatar {
+            .avatar-image {
+                border-radius: 50%;
+                width: 100px;
+                height: 100px;
+                outline: 6px solid var(--bg);
+            }
         }
-    }
 
-    @media (max-width: 500px) {
-        top: 98px;
         .names {
-            margin: 32px 0 0 20px;
+            margin: 42px 0 0 20px;
+            min-width: 0;
+
+            p {
+                margin: 0;
+            }
+
             .display-name-p {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
+                font-family: var(--tertiary-font);
+                font-weight: 600;
+                padding: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
+
             .user-name-p {
-                font-size: 0.9rem;
+                font-size: 1rem;
+                color: var(--user-name-color);
+                padding: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
+
         }
 
         .additional-buttons {
-            margin: 38px 0 0 16px;
+            margin: 48px 0 0 16px;
             display: flex;
             flex-direction: row;
         }
 
-        .avatar {
-            .avatar-image {
-                width: 80px;
-                height: 80px;
+        .change-profile-button {
+            img {
+                width: 100%;
+                height: 100%;
             }
         }
+
+        @media (max-width: 500px) {
+            max-width: 100%;
+            .names {
+                max-width: 100%;
+                margin: 32px 0 0 20px;
+                .display-name-p {
+                    font-size: 1.3rem;
+                }
+                .user-name-p {
+                    font-size: 0.9rem;
+                }
+            }
+
+            .additional-buttons {
+                margin: 38px 0 0 16px;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .avatar {
+                .avatar-image {
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+    }
+
+    .right {
+        padding: 28px 0 0 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        @media (max-width: 500px) {
+            padding: 14px 0 0 0;
+
+            .follow-button-wrapper {
+                position: absolute;
+                top: 67px;
+                left: 20px;
+                width: 80px;
+                display: flex;
+                justify-content: center;
+                .follow-button {
+                    padding: 0 10px;
+                    font-size: 0.9rem;
+                    content: "+";
+                    outline: 4px solid var(--bg);
+                }
+            }
+        }
+
+    }
+    @media (max-width: 500px) {
+        display: static;
+        padding: 0 10px 0 20px;
+        top: 100px;
     }
 }

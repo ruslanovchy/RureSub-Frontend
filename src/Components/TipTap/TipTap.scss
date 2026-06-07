@@ -157,10 +157,19 @@
         }
         .modal-card {
             padding: 20px;
+            
         }
     }
 
     .ProseMirror {
         position: static;
+    }
+}
+
+.tiptap-overlay-modal {
+    width: 100%;
+    max-width: 400px;
+    .link-span {
+        color: var(--link-color) !important;
     }
 }

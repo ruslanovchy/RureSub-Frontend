@@ -14,7 +14,7 @@ function ProfileAddInfo() {
 
     return (
         <div className="profile-add-info">
-            <div className={`bio ${bio ? '' : 'invisible'}`}
+            <div className={`bio ${bio && bio.length > 0 ? '' : 'invisible'}`}
                 onClick={()=>{
                     setBioState(bioState === 'clamped' ? 'expanded' : 'clamped')
                 }}>

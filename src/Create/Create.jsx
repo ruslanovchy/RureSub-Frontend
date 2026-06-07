@@ -11,12 +11,15 @@ import { useNavigate } from 'react-router-dom';
 import MediaViewer from '../Components/MediaViewer/MediaViewer.jsx';
 import { icons } from '../assets/icons/icons.js';
 import { copyToClipboard } from '../utils/clipboard.js';
+import { useCheckAuthorize } from '../hooks/useAuthorizeCheck.js';
 
 function Create() {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('');
     const [errors, setErrors] = useState({});
+
+    const checkAuthorize = useCheckAuthorize();
 
     const [mediaItems, setMediaItems] = useState([]);
 
@@ -29,6 +32,7 @@ function Create() {
     const [openedPage, setOpenedPage] = useState('create');
 
     function submit() {
+        if (!checkAuthorize()) return;
         const newErrors = {};
 
         if (!titleRegex.test(title)) {

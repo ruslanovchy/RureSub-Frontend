@@ -20,6 +20,8 @@ import { EditorState } from "@tiptap/pm/state";
 import LinkModal from "./Modals/LinkModal";
 import CharacterCount from "@tiptap/extension-character-count";
 import { Placeholder } from "@tiptap/extensions";
+import { useOverlayStore } from "../../Overlay/overlayStore";
+import { notifySuccess } from "../../notification";
 
 export const TipTapContext = createContext();
 
@@ -37,6 +39,7 @@ const TipTap = forwardRef((
     const [isOverlayOpened, setIsOverlayOpened] = useState(false);
     const [overlayOpenedModal, setOverlayOpenedModal] = useState('');
     const [enteredLink, setEnteredLink] = useState('');
+    const setOverlayData = useOverlayStore(store => store.setData);
 
     const editor = useEditor({
          extensions: [
@@ -61,6 +64,7 @@ const TipTap = forwardRef((
                 autolink: true,
                 defaultProtocol: 'https',
                 shouldAutoLink: (url) => url.startsWith('https://'),
+                openOnClick: false,
             }).extend({
                 inclusive: false
             }),
@@ -143,6 +147,47 @@ const TipTap = forwardRef((
         setOverlayOpenedModal('link');
     }
 
+    function handleLinkClick(e) {
+        const target = e.target;
+
+        if (target.tagName === 'A' && target instanceof HTMLAnchorElement) {
+            e.preventDefault();
+            const link = target.getAttribute('href');
+
+            setOverlayData({
+                title: 'Wanna follow the link?',
+                htmlContent: () => {
+                    return (
+                        <>
+                            <p>We have not relation to website you wanna go.</p>
+                            <p>Link: <span className='link-span'>{link}</span></p>
+                        </>
+                    )
+                },
+                modal: {
+                    className: 'tiptap-overlay-modal',
+                },
+                buttons: [
+                    {
+                        className: 'primary-button',
+                        textContent: 'Cancel',
+                        onClick: () => {
+                            setOverlayData(null);
+                        }
+                    },
+                    {
+                        className: 'secondary-button',
+                        textContent: 'Follow',
+                        onClick: () => {
+                            newWindow = window.open(link, '_blank');
+                            if (newWindow) newWindow.focus();
+                        }
+                    },
+                ]
+            })
+        }
+    }
+
     const providerValue = useMemo(() => ({editor, editorState, onLink}), [editor, editorState, onLink])
 
     const textareaWrapperRef = useRef(null);
@@ -188,6 +233,7 @@ const TipTap = forwardRef((
                 <div className="tiptap-textarea-wrapper"
                     ref={textareaWrapperRef}
                     onClick={(e)=>{
+                        handleLinkClick(e);
                         if (e.target === textareaWrapperRef.current)
                             editor.chain().focus('end').run()
                     }}>

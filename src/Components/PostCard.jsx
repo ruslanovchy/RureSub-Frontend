@@ -10,6 +10,9 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../App";
 import { assets } from "../assets/assets";
 import MediaViewer from "./MediaViewer/MediaViewer";
+import { useCheckAuthorize } from "../hooks/useAuthorizeCheck";
+import { notifyError, notifySuccess } from "../notification";
+import { useProfileStore } from "../stores/profileStore";
 
 
 function PostCard({ 
@@ -22,12 +25,15 @@ function PostCard({
 
     const navigate = useNavigate();
     const tipTapRef = useRef();
+    const profileData = useProfileStore(store => store.data)
     const [avatarSrc, setAvatarSrc] = useState(data.author.avatarUrl);
     const [addActionsOpened, setAddActionsOpened] = useState(false);
     const addActionsRef = useRef(null);
     const addActionsButtonRef = useRef(null);
     const [isLiked, setIsLiked] = useState(data.isLiked);
     const [likesCount, setLikesCount] = useState(data.likesCount);
+
+    const authorizeCheck = useCheckAuthorize();
 
     useEffect(() => {
         const handleClick = (e) => {
@@ -114,12 +120,72 @@ function PostCard({
                 context.previousFeed
             )
         }
-    })
+    });
+
+    const followMutation = useMutation({
+        mutationFn: async ({ authorId, isFollowed }) => {
+            const url = `followers?followingId=${authorId}`;
+
+            if (isFollowed) {
+                return await api.delete(url);
+            }
+
+            return await api.post(url);
+        },
+        onMutate: async ({ authorId }) => {
+            await queryClient.cancelQueries({ queryKey: queryKey });
+
+            const previousFeed = queryClient.getQueryData(queryKey);
+
+            queryClient.setQueryData(queryKey,
+                (oldData) => {
+                    if (!oldData) return oldData;
+
+                    return {
+                        ...oldData,
+                        pages: oldData.pages.map(page => 
+                            page.map(post => {
+                                if (post.authorId !== authorId) {
+                                    return post;
+                                }
+
+                                const newIsFollowed = !post.isFollowed;
+
+                                return {
+                                    ...post,
+                                    isFollowed: newIsFollowed
+                                }
+                            })
+                        )
+                    }
+                }
+            )
+
+            return { previousFeed }
+        },
+        onError: (err, variables, context) => {
+            queryClient.setQueryData(
+                queryKey,
+                context.previousFeed
+            )
+        }
+    });
 
     function like() {
+        if (!authorizeCheck()) return;
+
         likeMutation.mutate({
             postId: data.id,
             isLiked: data.isLiked
+        })
+    }
+
+    function follow() {
+        if (!authorizeCheck()) return;
+
+        followMutation.mutate({
+            authorId: data.authorId,
+            isFollowed: data.isFollowed
         })
     }
 
@@ -141,7 +207,7 @@ function PostCard({
         likesRef,
         mediaViewerRef
     ]
-    
+
     return (
         <div 
             className="post-container"
@@ -186,12 +252,26 @@ function PostCard({
                 </div>
                 <div className="right">
                     {
-                        showFollowButton &&
-                        <button 
-                            className="secondary-button"
-                            ref={followButtonRef}>
-                            Follow
-                        </button> 
+                        showFollowButton 
+                        && profileData 
+                        && data.authorId !== profileData.userId 
+                        && (
+                            data.isFollowed 
+                            ?
+                            <button 
+                                className="secondary-button"
+                                ref={followButtonRef}
+                                onClick={follow}>
+                                Unfollow
+                            </button>
+                            :
+                            <button 
+                                className="primary-button"
+                                ref={followButtonRef}
+                                onClick={follow}>
+                                Follow
+                            </button>
+                        )
                     }
                     {
                         mode == 'own' ? 

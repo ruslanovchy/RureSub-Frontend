@@ -11,8 +11,10 @@ import { queryClient } from '../App';
 import CommentField from './Components/CommentField';
 import Comment from './Components/Comment';
 import { commentMaxLength } from '../validation/postValidation';
-import { notifyPromise } from '../notification';
+import { notifyPromise, notifySuccess } from '../notification';
 import MediaViewer from '../Components/MediaViewer/MediaViewer';
+import { useCheckAuthorize } from '../hooks/useAuthorizeCheck';
+import { useProfileStore } from '../stores/profileStore';
 
 export const PostContext = createContext();
 
@@ -44,6 +46,8 @@ function Post() {
     const [replyingCommentId, setReplyingCommentId] = useState('');
     const navigate = useNavigate();
     const mediaViewerRef = useRef(null);
+    const checkAuthorize = useCheckAuthorize();
+    const profileData = useProfileStore(store => store.data);
 
     //#region queries
 
@@ -172,11 +176,87 @@ function Post() {
     })
 
     function like() {
+        if (!checkAuthorize()) return;
         if (data) {
             likeMutation.mutate({
                 isLiked: data.isLiked,
                 postId: data.id
             })
+        }
+    }
+
+    const followMutation = useMutation({
+        mutationFn: async ({ authorId, isFollowed }) => {
+            const url = `followers?followingId=${authorId}`;
+
+            if (isFollowed) {
+                return await api.delete(url);
+            }
+
+            return await api.post(url);
+        },
+        onMutate: async ({ authorId }) => {
+            await queryClient.cancelQueries({ queryKey: queryKey });
+
+            const previousData = queryClient.getQueryData(queryKey);
+            const previousFeedData = queryClient.getQueryData(feedQueryKey);
+
+            queryClient.setQueryData(queryKey,
+                (oldData) => {
+                    const newIsFollowed = !oldData.isFollowed;
+
+                    return {
+                        ...oldData,
+                        isFollowed: newIsFollowed,
+                    }
+                }
+            )
+
+            queryClient.setQueryData(feedQueryKey,
+                (oldData) => {
+                    if (!oldData) return oldData;
+
+                    return {
+                        ...oldData,
+                        pages: oldData.pages.map(page => 
+                            page.map(post => {
+                                if (post.authorId !== authorId) {
+                                    return post;
+                                }
+
+                                const newIsFollowed = !post.isFollowed;
+
+                                return {
+                                    ...post,
+                                    isFollowed: newIsFollowed
+                                }
+                            })
+                        )
+                    }
+                }
+            )
+
+            return { previousFeedData, previousData }
+        },
+        onError: (err, variables, context) => {
+            if (context) {
+                queryClient.setQueryData(queryKey, context.previousData);
+                queryClient.setQueryData(feedQueryKey, context.previousFeedData);
+            }
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries(queryKey);
+            queryClient.invalidateQueries(feedQueryKey);
+        }
+    });
+
+    function follow() {
+        if (!checkAuthorize()) return;
+        if (data) {
+            followMutation.mutate({
+                authorId: data.authorId,
+                isFollowed: data.isFollowed
+            });
         }
     }
 
@@ -189,6 +269,7 @@ function Post() {
     const comments = commentsData?.pages?.flatMap(c => c) ?? [];
     
     function sendComment(editorData, setErrors) {
+        if (!checkAuthorize()) return;
         const newErrors = {};
 
         if (editorData.length > commentMaxLength) {
@@ -250,6 +331,7 @@ function Post() {
     }
 
     function deleteComment(commentId, callBack) {
+        if (!checkAuthorize()) return;
         const url = `posts/comments?commentId=${commentId}`;
 
         const promise = api.delete(url);
@@ -306,7 +388,7 @@ function Post() {
                         <img src={data.author.avatarUrl} alt="" />
                         <div className="names">
                             <span className='display-name'>{data.author.displayName}</span>
-                            <span className='user-name'>{data.author.userName}</span>
+                            <span className='user-name'>@{data.author.userName}</span>
                         </div>
                         <div className="date">
                             <span>•</span>
@@ -314,6 +396,27 @@ function Post() {
                                 {toPostDateFormat(new Date(data.postedAt))}
                             </span>
                         </div>
+                    </div>
+                    <div className="right">
+                        {
+                            profileData 
+                            && data.authorId !== profileData.userId 
+                            && (
+                                data.isFollowed 
+                                ?
+                                <button 
+                                    className="secondary-button"
+                                    onClick={follow}>
+                                    Unfollow
+                                </button>
+                                :
+                                <button 
+                                    className="primary-button"
+                                    onClick={follow}>
+                                    Follow
+                                </button>
+                            )
+                        }
                     </div>
                 </div>
 

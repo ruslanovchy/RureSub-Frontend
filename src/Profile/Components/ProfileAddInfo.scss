@@ -14,10 +14,6 @@
 
             transition: all 0.3s ease;
 
-            &.invisible {
-                display: none;
-            }
-
             &.clamped {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
@@ -30,6 +26,10 @@
                 display: block;
                 overflow: visible;
             }
+        }
+
+        &.invisible {
+            display: none;
         }
     }
 }

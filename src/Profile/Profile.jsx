@@ -25,9 +25,10 @@ const fetchUser = async (userName) => {
 
 function Profile() {
     const params = useParams();
+    const queryKey = ['user', params.userName];
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ['user', params.userName],
+        queryKey,
         queryFn: () => fetchUser(params.userName)
     });
 
@@ -48,6 +49,7 @@ function Profile() {
     const contextData = {
         profileData: data,
         isProfileOwner,
+        queryKey
     }
 
     function getCurrentPage() {

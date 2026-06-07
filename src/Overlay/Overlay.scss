@@ -21,9 +21,13 @@
             color: var(--text-color);
         }
 
+        .text-content {
+            margin: 0 0 12px 0;
+        }
+
         p {
             color: var(--text-color5);
-            margin: 6px 0 12px 0;
+            margin: 6px 0 6px 0;
             font-size: 0.9rem;
         }
 
@@ -39,9 +43,9 @@
         }
 
         p.error {
-        color: var(--error-color);
-        padding: 0;
-        margin: 10px 0 0 0;
+            color: var(--error-color);
+            padding: 0;
+            margin: 10px 0 0 0;
         }
 
         @media (max-width: 500px) {

@@ -85,6 +85,7 @@
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.1s ease;
     transform: translateY(-4px) scale(0.94);
+    z-index: 1000;
 
     &.opened {
         opacity: 1;

@@ -17,7 +17,7 @@
     .post-page-header {
         height: 50px;
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: minmax(0, auto) 1fr;
         margin: 0 0 10px 0;
 
         .left {
@@ -35,18 +35,24 @@
             .names {
                 display: flex;
                 flex-direction: column;
+                min-width: 0;
+                max-width: 100%;
             }
 
             .display-name {
                 font-size: 1rem;
                 color: var(--text-color);
                 margin: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             .user-name {
                 font-size: 0.75rem;
                 color: var(--text-color5);
                 margin: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
             
             .date {
@@ -57,6 +63,7 @@
                 gap: 6px;
                 color: var(--text-color6);
                 font-size: 0.82rem;
+                min-width: 80px;
             }
         }
         
@@ -65,7 +72,7 @@
             justify-content: end;
             gap: 8px;
 
-            .secondary-button {
+            button {
                 height: 36px;
                 font-weight: 500;
                 font-size: 1.1rem;
@@ -75,6 +82,12 @@
                 height: 36px;
                 padding: 0 10px 1px 10px;
                 letter-spacing: 1px;
+            }
+            @media (max-width: 500px) {
+                button {
+                    height: 30px;
+                    font-size: 0.9rem;
+                }
             }
         }
     }

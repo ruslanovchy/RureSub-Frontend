@@ -16,7 +16,7 @@ function Overlay() {
         else {
             setTimeout(() => {
                 setOverlayDisplayData(overlayData);
-            }, 500)
+            }, 200)
         }
     }, [overlayData])
 
@@ -39,7 +39,23 @@ function Overlay() {
                     <img src={icons.crossIcon} alt="" />
                 </button>
                 {overlayDisplayData?.title && <h3>{overlayDisplayData.title}</h3>}
-                {overlayDisplayData?.textContent && <p>{overlayDisplayData.textContent}</p>}
+                <div className="text-content">
+                    {
+                        overlayDisplayData?.textContent && 
+                        (
+                            Array.isArray(overlayDisplayData.textContent) 
+                            ?
+                                overlayDisplayData.textContent.map((row, index) =>
+                                <p>{row}</p>)
+                            :
+                            <p>{overlayDisplayData.textContent}</p>
+                        )
+                    }
+                    {
+                        overlayDisplayData?.htmlContent &&
+                        (overlayDisplayData?.htmlContent())
+                    }
+                </div>
                 {
                     overlayDisplayData?.buttons &&
                     <div className="buttons">
