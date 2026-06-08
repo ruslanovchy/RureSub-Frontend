@@ -5,10 +5,11 @@ import ToggleSetting from '../Components/ToggleSetting';
 import './ProfileSettings.scss'
 import { api } from '../../api';
 import { notifyPromise } from '../../notification';
+import { useSettingsStore } from '../../stores/settingsStore';
 
 function ProfileSettings() {
-    const profile = useProfileStore(store => store.data);
-    const setProfileData = useProfileStore(store => store.setData);
+    const profile = useSettingsStore(store => store.profileData);
+    const setProfileData = useSettingsStore(store => store.setProfileData);
     const [showFollowers, setShowFollowers] = useState(profile?.showFollowers ?? false);
     const [showFollowings, setShowFollowings] = useState(profile?.showFollowings ?? false);
     const [isInitialized, setIsInitialized] = useState(false);
