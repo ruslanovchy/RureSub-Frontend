@@ -21,7 +21,7 @@ const pages = {
 }
 
 async function getSettings(user) {
-    const profileResponse = await api.get(`profile?userName=${user.userName}`);
+    const profileResponse = await api.get(`profile?userName=${user.userName}&isSettings=1`);
     const meDetailedResponse = await api.get(`auth/medetailed`);
     
     return { 

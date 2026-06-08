@@ -9,12 +9,14 @@ import { notifyPromise } from '../../notification';
 function ProfileSettings() {
     const profile = useProfileStore(store => store.data);
     const setProfileData = useProfileStore(store => store.setData);
-    const [showFollowers, setShowFollowers] = useState(false);
+    const [showFollowers, setShowFollowers] = useState(profile?.showFollowers ?? false);
+    const [showFollowings, setShowFollowings] = useState(profile?.showFollowings ?? false);
     const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
         if (profile) {
             setShowFollowers(profile.showFollowers);
+            setShowFollowings(profile.showFollowings);
         }
 
     }, [profile])
@@ -36,6 +38,27 @@ function ProfileSettings() {
         promise.then(response => {
             if (response.status === 200) {
                 setProfileData({...profile, showFollowers: value});
+            }
+        })
+    }
+
+    function handleSetShowFollowings(value) {
+        const formData = new FormData();
+
+        formData.append('userId', profile.userId);
+        formData.append('value', value);
+
+        const promise = api.patch('profile/showfollowings', formData);
+
+        notifyPromise(promise, {
+            loading: 'Loading...',
+            success: 'Success!',
+            error: 'Error occured.'
+        });
+
+        promise.then(response => {
+            if (response.status === 200) {
+                setProfileData({...profile, showFollowings: value});
             }
         })
     }
@@ -68,6 +91,12 @@ function ProfileSettings() {
                 setChecked={handleSetShowFollowers}
                 settingName='Show followers'
                 description={'Show followers count to other users'}/>
+
+            <ToggleSetting
+                checked={showFollowings}
+                setChecked={handleSetShowFollowings}
+                settingName='Show followings'
+                description={'Show followings count to other users'}/>
 
         </div>
     )

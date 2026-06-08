@@ -49,10 +49,16 @@ $img-size: 140px;
 
         .image-group {
             height: auto;
+            width: auto;
             max-width: 100%;
+            min-width: 200px;
             position: relative;
-            min-height: 100px;
-            min-width: 100px;
+            min-height: 160px;
+            border-radius: 10px;
+            border: 2px dashed var(--bg3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .hover-overlay {
@@ -61,7 +67,7 @@ $img-size: 140px;
             top: 0px;
             width: 100%;
             max-width: 100%;
-            height: calc(100% - 7px);
+            height: calc(100%);
             transition: 0.2s ease;
             cursor: pointer;
             background-color: rgba(0, 0, 0, 0.4);

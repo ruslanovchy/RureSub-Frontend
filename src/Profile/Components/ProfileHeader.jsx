@@ -21,8 +21,8 @@ function ProfileHeader() {
 
     useEffect(() => {
         if (context.profileData) {
-            setAvatarSrc(context.profileData.avatarUrl);
-            setBannerSrc(context.profileData.bannerUrl);
+            setAvatarSrc(context.profileData?.avatarUrl ?? assets.userDefaultAvatar);
+            setBannerSrc(context.profileData?.bannerUrl ?? assets.userDefaultBanner);
         }
     }, [context.profileData])
 

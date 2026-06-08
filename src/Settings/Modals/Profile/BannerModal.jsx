@@ -71,6 +71,12 @@ function BannerModal() {
         reload()
     }, [isOpened]);
 
+    useEffect(() => {
+        if (profileData) {
+            setBannerSrc(profileData?.bannerUrl ?? assets.userDefaultBanner);
+        }
+    }, [profileData])
+
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels);
     }, [])

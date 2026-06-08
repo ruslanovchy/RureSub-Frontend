@@ -72,7 +72,7 @@ const Comment = forwardRef((
 
     const likeMutation = useMutation({
         mutationFn: async ({ commentId, isLiked }) => {
-            const url = `comments/likes/like?commentId=${commentId}`;
+            const url = `posts/comments/like?commentId=${commentId}`;
 
             if (isLiked) {
                 return await api.delete(url);

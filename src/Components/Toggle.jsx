@@ -23,7 +23,6 @@ function Toggle({ ref, checked, setChecked, onChange, id, ...props}) {
                 checked={checked}
                 onClick={()=>{
                     setChecked(!checked);
-                    console.log('toggle');
                 }}
                 onChange={()=>{}}
                 {...props} />

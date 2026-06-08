@@ -33,6 +33,12 @@ function AvatarModal() {
 
     const [error, setError] = useState('');
 
+    useEffect(() => {
+        if (profileData) {
+            setAvatarSrc(profileData?.avatarSrc ?? assets.userDefaultAvatar);
+        }
+    }, [profileData])
+
     async function submit() {
         try {
 

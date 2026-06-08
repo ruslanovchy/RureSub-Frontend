@@ -56,3 +56,13 @@ export function toPostDateFormat(date) {
 
     return 'now'
 }
+
+const shortDateformatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+export function toShortDateFormat(date) {
+    return shortDateformatter.format(date);
+}
