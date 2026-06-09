@@ -1,21 +1,23 @@
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import './Posts.scss'
-import { api } from '../../../api';
-import PostCard from '../../../Components/PostCard';
-import { useProfileStore } from '../../../stores/profileStore';
+import './Likes.scss'
+import { api } from '../../../../api';
+import PostCard from '../../../../Components/PostCard';
+import { useProfileStore } from '../../../../stores/profileStore';
 import { useParams } from 'react-router-dom';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { ProfileContext } from '../../Profile';
-import { notifyPromise, notifySuccess } from '../../../notification';
-import { icons } from '../../../assets/icons/icons';
-import { resetQuery } from '../../../App';
-import { useOverlayStore } from '../../../Overlay/overlayStore';
+import { ProfileContext } from '../../../User';
+import { notifyPromise, notifySuccess } from '../../../../notification';
+import { icons } from '../../../../assets/icons/icons';
+import { resetQuery } from '../../../../App';
+import { useAuthOverlayStore, useAuthStore } from '../../../../stores/authStore';
+import { useOverlayStore } from '../../../../Overlay/overlayStore';
+import LoadingCircle from '../../../../Components/LoadingCircle';
 
 async function fetchPosts({ pageParam }) {
-    let url = `posts/user?id=${pageParam.userId}`;
+    let url = `posts/user_likes?id=${pageParam.userId}`;
 
     if (pageParam) {
-        url += `&lastPostedAt=${pageParam.lastPostedAt}&lastId=${pageParam.lastId}`
+        url += `&page=${pageParam.page}`
     }
 
     const response = await api.get(url);
@@ -23,12 +25,13 @@ async function fetchPosts({ pageParam }) {
     return response.data;
 }
 
-function Posts() {
+function Likes() {
     const profileContext = useContext(ProfileContext);
+    const user = useAuthStore(store => store.user);
     const queryClient = useQueryClient();
     const setOverlayData = useOverlayStore(store => store.setData);
 
-    const queryKey = ['profilePosts', profileContext?.profileData.userId];
+    const queryKey = ['likes', profileContext?.profileData.userId];
 
     const {
         data,
@@ -41,7 +44,7 @@ function Posts() {
     } = useInfiniteQuery({
         queryKey,
         queryFn: fetchPosts,
-        initialPageParam: { userId: profileContext?.profileData?.userId },
+        initialPageParam: { userId: profileContext?.profileData?.userId, page: 1 },
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (!lastPage || lastPage.length === 0) {
                 return undefined;
@@ -51,21 +54,21 @@ function Posts() {
 
             return {
                 userId: lastPageParam.userId,
-                lastPostedAt: lastPost.postedAt,
-                lastId: lastPost.id
+                page: lastPageParam.page + 1,
             }
         },
-        enabled: !!profileContext.profileData
+        enabled: !!profileContext.profileData && !!user
     });
 
     const [isOverlayOpened, setIsOverlayOpened] = useState(false);
     const [openedModal, setOpenedModal] = useState('');
+    const [postToDelete, setPostToDelete] = useState(null);
     const overlayRef = useRef(null);
 
     const posts = 
         data?.pages.flatMap(page => page) ?? [];
-
-    function submitDelete(postToDelete) {
+    
+    function submitDelete() {
         if (!postToDelete) {
             return;
         }
@@ -130,9 +133,10 @@ function Posts() {
                             <PostCard
                                 data={p}
                                 showFollowButton={false}
-                                mode={profileContext.isProfileOwner ? 'own' : 'feed'}
+                                mode={!!user && user.id == p.authorId ? 'own' : 'feed'}
                                 queryKey={queryKey}
                                 onDelete={() => {
+                                    setPostToDelete(p);
                                     setOverlayData({
                                         title: 'Confirmation',
                                         textContent: 'Are you sure want to delete post?',
@@ -150,7 +154,7 @@ function Posts() {
                                             {
                                                 className: 'primary-button',
                                                 textContent: 'Sure',
-                                                onClick: () => { submitDelete(p); setOverlayData(null); }
+                                                onClick: submitDelete
                                             },
                                         ]
                                     })
@@ -159,12 +163,10 @@ function Posts() {
                     )
                 })
             }
-            <div
-                className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
-                <div className='circle'></div>
-            </div>            
+            <LoadingCircle
+                hasNextPage={hasNextPage}/>         
         </div>
     )
 }
 
-export default Posts;
+export default Likes;

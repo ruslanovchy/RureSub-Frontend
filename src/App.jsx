@@ -9,7 +9,7 @@ import { useAuthStore } from './stores/authStore.js'
 import { notifyPromise } from './notification.js'
 import Header from './Header/Header.jsx'
 import Navigation from './Navigation/Navigation.jsx'
-import Profile from './Profile/Profile.jsx'
+import Profile from './User/Profile/Profile.jsx'
 import { useAccountOverlayStore } from './stores/accountOverlayStore.js'
 import AccountOverlay from './Header/AccountOverlay.jsx'
 import LoadingBar from './LoadingBar/LoadingBar.jsx'
@@ -23,6 +23,8 @@ import Create from './Create/Create.jsx'
 import Home from './Home/Home.jsx'
 import Post from './Post/Post.jsx'
 import Overlay from './Overlay/Overlay.jsx'
+import Subscriptions from './User/Subscriptions/Subscriptions.jsx'
+import User from './User/User.jsx'
 
 export let globalNavigate = null;
 
@@ -61,7 +63,22 @@ function App() {
 
 				<Routes>
 					<Route path='/' element={<Home/>}/>
-					<Route path='/user/:userName' element={<Profile/>}></Route>
+					<Route path='/user/:userName' element={<User/>}>
+						<Route
+							index
+							element={<Profile/>}>
+						</Route>
+						<Route
+							path='followers'
+							element={<Subscriptions
+								page={'Followers'}/>}>
+						</Route>
+						<Route
+							path='followings'
+							element={<Subscriptions
+								page={'Followings'}/>}>
+						</Route>
+					</Route>
 					<Route path='/settings' element={<Settings/>}>
 						<Route path='account' element={<AccountSettings/>}/>
 						<Route path='profile' element={<ProfileSettings/>}/>

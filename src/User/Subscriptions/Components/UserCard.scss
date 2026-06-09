@@ -1,0 +1,93 @@
+.user-card-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    height: 70px;
+    padding: 10px 20px;
+    border-radius: 18px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    .left {
+        display: flex;
+        align-items: center;
+        min-width: 0;    
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .names {
+            display: flex;
+            align-items: center;
+            margin: 2px 0 0 10px;
+            gap: 10px;
+            min-width: 0;    
+        }
+
+        .display-name {
+            font-size: 1rem;
+            font-family: var(--tertiary-font);
+            font-weight: 600;
+            padding: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .user-name {
+            font-size: 0.8rem;
+            color: var(--user-name-color);
+            padding: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+
+    .right {
+        button {
+            font-size: 1rem;
+            padding: 6px 20px;
+            height: 34px;
+        }
+    }
+
+    &:hover {
+        background-color: var(--bg2);
+    }
+
+    @media (max-width: 500px) {
+        padding: 10px 16px;
+        .left {
+            img {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+            }
+
+            .display-name {
+                font-size: 0.9rem;
+                font-family: var(--tertiary-font);
+                font-weight: 600;
+                padding: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .user-name {
+                font-size: 0.74rem;
+                color: var(--user-name-color);
+                padding: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+        .right {
+            button {
+                font-size: 1rem;
+                padding: 6px 16px;
+                height: 34px;
+            }
+        }
+    }
+}

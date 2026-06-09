@@ -1,12 +1,14 @@
 import { useContext } from 'react';
 import './ProfileAbout.scss'
-import { ProfileContext } from '../Profile';
-import { toIndicatorFormat } from '../../utils/indicatorFormat';
-import { toShortDateFormat } from '../../utils/dateFormat';
+import { ProfileContext } from "../../User";
+import { toIndicatorFormat } from '../../../utils/indicatorFormat';
+import { toShortDateFormat } from '../../../utils/dateFormat';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileAbout() {
     const context = useContext(ProfileContext);
-    console.log(context);
+    const navigate = useNavigate();
+    
     return (
         <div className="profile-about-wrapper">
             <div className="profile-about">
@@ -15,7 +17,8 @@ function ProfileAbout() {
                 <div className="profile-about-grid"> 
                     {
                         !!context.profileData.showFollowings &&
-                        <div className="indicator-group">
+                        <div className="indicator-group clickable"
+                            onClick={() => navigate('followings')}>
                             <p className="counter">{toIndicatorFormat(context.profileData.followingsCount)}</p>
                             <p className="title">followings</p>
                         </div>
@@ -23,7 +26,8 @@ function ProfileAbout() {
 
                     {
                         !!context.profileData.showFollowers &&
-                        <div className="indicator-group">
+                        <div className="indicator-group clickable"
+                            onClick={() => navigate('followers')}>
                             <p className="counter">{toIndicatorFormat(context.profileData.followersCount)}</p>
                             <p className="title">followers</p>
                         </div>
@@ -40,7 +44,7 @@ function ProfileAbout() {
                     <br />
 
                     <div className="indicator-group">
-                        <p className="counter">{toShortDateFormat(context.profileData.postsCount)}</p>
+                        <p className="counter">{toShortDateFormat(new Date(context.profileData.createdAt))}</p>
                         <p className="title">created at</p>
                     </div>
                 </div>

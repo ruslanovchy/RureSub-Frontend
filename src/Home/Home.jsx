@@ -4,6 +4,7 @@ import './Home.scss'
 import PostCard from '../Components/PostCard';
 import { useCallback, useEffect, useRef } from 'react';
 import { queryClient } from '../App';
+import LoadingCircle from '../Components/LoadingCircle';
 
 async function getFeed({ pageParam = null }) {
     let url = 'posts/feed';
@@ -84,10 +85,8 @@ function Home() {
                         )
                     })
                 }
-                <div
-                    className={`loading-circle-container ${hasNextPage ? '' : 'hidden'}`}>
-                    <div className='circle'></div>
-                </div>
+                <LoadingCircle
+                    hasNextPage={hasNextPage}/>
                 <br />
             </div>
         </div>

@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from "react";
-import { ProfileContext } from "../Profile";
-import defaultAvatar from '../../assets/user-default-avatar.png'
-import defaultBanner from '../../assets/user-default-banner.jpg'
-import penIcon from '../../assets/icons/pen.svg'
+import { ProfileContext } from "../../User";
+import defaultAvatar from '../../../assets/user-default-avatar.png'
+import defaultBanner from '../../../assets/user-default-banner.jpg'
+import penIcon from '../../../assets/icons/pen.svg'
 import './ProfileHeader.scss'
 import { useNavigate } from "react-router-dom";
-import { assets } from "../../assets/assets";
-import { useCheckAuthorize } from "../../hooks/useAuthorizeCheck";
-import { api } from "../../api";
-import { queryClient } from "../../App";
+import { assets } from "../../../assets/assets";
+import { useCheckAuthorize } from "../../../hooks/useAuthorizeCheck";
+import { api } from "../../../api";
+import { queryClient } from "../../../App";
 import { useMutation } from "@tanstack/react-query";
 
 function ProfileHeader() {
     const navigate = useNavigate();
     const context = useContext(ProfileContext);
-    const [avatarSrc, setAvatarSrc] = useState(context.profileData.avatarUrl ?? assets.userDefaultAvatar);
-    const [bannerSrc, setBannerSrc] = useState(context.profileData.bannerUrl ?? assets.userDefaultBanner);
+    const [avatarSrc, setAvatarSrc] = useState(context.profileData?.avatarUrl ?? assets.userDefaultAvatar);
+    const [bannerSrc, setBannerSrc] = useState(context.profileData?.bannerUrl ?? assets.userDefaultBanner);
     const checkAuthorize = useCheckAuthorize();
     const feedQueryKey = ['feed']
 

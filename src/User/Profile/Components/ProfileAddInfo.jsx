@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import './ProfileAddInfo.scss'
-import { ProfileContext } from '../Profile';
+import { ProfileContext } from "../../User";
 
 function ProfileAddInfo() {
     const context = useContext(ProfileContext);
